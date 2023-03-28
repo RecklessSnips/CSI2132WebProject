@@ -22,6 +22,7 @@ CREATE TABLE Person (
 CREATE TABLE Account (
 	account_id SERIAL PRIMARY KEY,
 	person_id INT,
+	username VARCHAR(32) UNIQUE NOT NULL,
 	ssn_sin VARCHAR(32) UNIQUE NOT NULL,
 	creation_date DATE NOT NULL,
 	
@@ -195,14 +196,14 @@ VALUES
 ('Joe','Mama','2125 Goyeau Ave, Widsor, ON, Canada'),
 ('Franco','St Angelo','3889 rue de la Gauchetière, Montreal, QC, Canada');
 
-INSERT INTO Account(person_id, ssn_sin, creation_date, salt, hashed_salted_password)
+INSERT INTO Account(person_id, username, ssn_sin, creation_date, salt, hashed_salted_password)
 VALUES
-(1, '991-313-305', NOW(), 'cGCInaZBjehzxmfr', '4fbba91c8268a063531d82ccf60d07db283d56cb10c5120ffd38e4cc3e67dfec'), --joebiden.26 --THE SALT IS PREPENDED
-(2, '608-260-188', NOW(), 'E5mdUqwV6jBXU5C8', 'ddd20a1f75dac15398a6ef0620ea1fc0b6c7c25764690c523fd0d539cb07a88c'), --ILOVECAts%635
-(3, '382-446-623', NOW(), 'ThnvdJACYIqCozDD', 'f129c5e1628ec5915f6b65d78e5697ca5481fd1be140edac6b71bb5f1d292076'), --crab-enthausiast27
-(4, '941-463-556', NOW(), 'zIk6z9xHmlxmY71H', 'f1fdfb3e761c1cd27c137f0575e2d2c98739b321f00ac807452197ac8dd4bd41'), --abc123!
-(5, '263-134-066', NOW(), 'gD5YJ9brZ4qRjQ3w', 'e43adca44d1aaba45c8fd899a462ab9f7af59df443fb0364e02ed6c3ab26b1a6'), --onemillion=1000000
-(6, '925-092-975', NOW(), 'mYRNkTwO2cDCdBME', '56c483835403ccd8b47be03f1ec003de0d99ad4c240ca815e21a4b5cfb4d8a1a'); --davisbigPASSWORD5
+(1, 'matkirk', '991-313-305', NOW(), 'cGCInaZBjehzxmfr', '2042628a67e6d98deff79d1a3b59069faac25af8ea3865251dd05d12c367557a'), --joebiden.26 --The salt is suffix, username prefix
+(2, 'BettyDev92', '608-260-188', NOW(), 'E5mdUqwV6jBXU5C8', '022217307ccbe464c7c28d898e4b89b76f9e7cb45ba175ce7c1b3649482b387f'), --ILOVECAts%635
+(3, 'Sho_sho', '382-446-623', NOW(), 'ThnvdJACYIqCozDD', '6c4f19727fdcf837fcb8491d8349efe33c37457cedcd94b3c612b33147173a2b'), --crab-enthausiast27
+(4, 'MaddisonVaclavik', '941-463-556', NOW(), 'zIk6z9xHmlxmY71H', 'd4542fe96af265106088f11b5065dfa6f47ddde9070dcdbacf479c82d4acae15'), --abc123!
+(5, 'Mama', '263-134-066', NOW(), 'gD5YJ9brZ4qRjQ3w', '3b189ab7034b331b4a96ee8f279514c056706b9cdbddb09b6ffb7b667a03e128'), --onemillion=1000000
+(6, 'st__angl', '925-092-975', NOW(), 'mYRNkTwO2cDCdBME', 'ff10074d83e75702cffa3adc6270604f8232f122786e4cbec222bbae5dad96e9'); --davisbigPASSWORD5
 
 INSERT INTO CustomerAccount(account_id) VALUES(1),(2);
 
