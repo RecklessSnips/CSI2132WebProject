@@ -41,8 +41,6 @@ public class DatabaseAccessor {
         });
     }
 
-
-
     private boolean tryRunStatement (AccessFunction function) {
         if(connection==null) return false;
         try {

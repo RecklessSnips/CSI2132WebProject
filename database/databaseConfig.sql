@@ -96,10 +96,11 @@ CREATE TABLE Hotel(
    -- Char[0] = TV
    -- Char[1] = Air conditionning
    -- Char[2] = Microwave
-   -- Char[3] = Smoking allowed
-   -- Char[4] = Pets friendly
-   -- Char[5] = Sea view
-   -- Char[6] = Mountain view
+   -- Char[3] = Fridge
+   -- Char[4] = Smoking allowed
+   -- Char[5] = Pets friendly
+   -- Char[6] = Sea view
+   -- Char[7] = Mountain view
    -- ... More to be added up to 32
 CREATE TABLE Room(
 	room_id SERIAL PRIMARY KEY,
@@ -176,14 +177,14 @@ VALUES
 
 INSERT INTO Room(room_number, hotel_id, price_per_night, room_capacity, extension_capacity, tags, notes)
 VALUES
-(101, 1, 96.00, 1, 0, 'XX00000', NULL),
-(102, 1, 132.00, 2, 0, 'XX0000X', NULL),
-(103, 2, 84.00, 1, 0, 'XXX0000', NULL),
-(104, 2, 110.00, 2, 0, 'XXX000X', NULL),
-(105, 3, 104.99, 1, 1, 'XX000X0', NULL),
-(106, 3, 230.99, 2, 1, 'XX0000X', NULL),
-(107, 4, 43.23, 1, 2, '0XX00X0', 'The faucets water is brown'),
-(108, 4, 92.75, 2, 0, '0XX000X', NULL);
+(101, 1, 96.00, 1, 0, 'XX000000', NULL),
+(102, 1, 132.00, 2, 0, 'XX00000X', NULL),
+(103, 2, 84.00, 1, 0, 'XXX00000', NULL),
+(104, 2, 110.00, 2, 0, 'XXX0000X', NULL),
+(105, 3, 104.99, 1, 1, 'XX0000X0', NULL),
+(106, 3, 230.99, 2, 1, 'XX00000X', NULL),
+(107, 4, 43.23, 1, 2, '0XX000X0', 'The faucets water is brown'),
+(108, 4, 92.75, 2, 0, '0XX0000X', NULL);
 
 INSERT INTO Person(first_name, last_name, address)
 VALUES
@@ -212,10 +213,10 @@ VALUES
 (5, TRUE, TRUE, FALSE),
 (6, TRUE, TRUE, FALSE);
 
-UPDATE Hotel SET manager_id = 5 WHERE hotel_id = 1;
-UPDATE Hotel SET manager_id = 4 WHERE hotel_id = 2;
-UPDATE Hotel SET manager_id = 5 WHERE hotel_id = 3;
-UPDATE Hotel SET manager_id = 6 WHERE hotel_id = 4;
+UPDATE Hotel SET manager_id = 3 WHERE hotel_id = 1;
+UPDATE Hotel SET manager_id = 2 WHERE hotel_id = 2;
+UPDATE Hotel SET manager_id = 3 WHERE hotel_id = 3;
+UPDATE Hotel SET manager_id = 4 WHERE hotel_id = 4;
 
 --DELETE FROM HotelChain WHERE chain_name = 'Confort Inn';
 --DELETE FROM Room;
