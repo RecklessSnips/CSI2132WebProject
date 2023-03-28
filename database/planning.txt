@@ -1,0 +1,75 @@
+LEGEND:
+= PK
+-> FK
+-? Could be null
+- Attribute (not null)
+* Notes
+
+Hotel Chain
+= Chain id
+- Address of central office
+- Number of its hotels
+- Contact email address
+- Phone number
+
+Hotel
+= Hotel id
+-> Chain
+-> Manager
+- Nbr of stars
+- Nbr of rooms
+- Address of hotel
+- Phone number
+* Stores history of booking
+
+Rooms
+= Room id
+- Room number (first digit is floor)
+-> Hotel
+- Price
+- Amenities | Sea view | Mountain view
+- Capacity of the room
+- Extendable
+-? Extra notes (For problems or damage)
+
+Booking
+= Booking id
+-> Room (/!\ REFERENCES TO ARCHIVED ROOM SHOULD STILL EXISTED)
+- Timestamp (start day, end day)
+-> Person (Refers to person in case the client came in person and didn't have any account)
+
+Person
+= ID
+- Full name
+- Address
+
+Account [Person]
+= Account ID
+-> Person
+- SSN/SIN
+- Password Hash + Salt
+- Date of registration
+
+Customers [Account]
+= Customer ID
+-> Account
+* Search for rooms for specific dates
+* When checking-in their room booking is transformed to rendering that they can pay for
+
+Employees [Account]
+-> Account
+- Various Role/Positions
+- Permissions
+* Check-in employee are responsible for transforming the booking to renting
+* Allows for physical check-ins and book a room for a customer directly, without prior booking
+* Admin should be allowed to hotels chains, hotels, rooms. 
+
+
+INTEGRITY:
+* You cannot have information about a room without having in the database an hotel
+* Cannot have hotel without hotel chain
+* Rooms get archived
+* What happens to hotel if manager is deleted knowing that the field can't be null?
+
+MASTER PASSWORD:
+* admin
