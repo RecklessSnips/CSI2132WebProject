@@ -1,36 +1,31 @@
 package Entities;
 
-public class Account {
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Account implements ISQLParsable {
     private int accountId;
     private int personId;
     private String username;
-    private int ssnSin;
-    private String creationDate;
+    private String ssnSin;
+    private Date creationDate;
     private AccountType type;
 
-    public int getAccountId() {
-        return accountId;
-    }
-    public int getPerson_id() {
-        return personId;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public int getSsnSin() {
-        return ssnSin;
-    }
-    public String getCreationDate() {
-        return creationDate;
-    }
+    public int getAccountId() { return accountId; }
+    public int getPersonId() { return personId; }
+    public String getUsername() { return username; }
+    public String getSsnSin() { return ssnSin; }
+    public Date getCreationDate() { return creationDate; }
 
-    public Account(int accountId, int personId, AccountType type, String username, int ssnSin, String creationDate) {
-        this.accountId = accountId;
-        this.personId = personId;
-        this.type = type;
-        this.username = username;
-        this.ssnSin = ssnSin;
-        this.creationDate = creationDate;
+    @Override
+    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
+        accountId = resultSet.getInt(0);
+        personId = resultSet.getInt(1);
+        username = resultSet.getString(2);
+        ssnSin = resultSet.getString(3);
+        creationDate = resultSet.getDate(4);
+        type = AccountType.values()[resultSet.getInt(5)];
     }
 
 
@@ -39,9 +34,10 @@ public class Account {
         return "Account{" +
                 "account_id=" + accountId +
                 ", person_id=" + personId +
-                ", username='" + username + '\'' +
-                ", ssn_sin=" + ssnSin +
-                ", creation_date='" + creationDate + '\'' +
+                ", username='" + username +
+                "\', ssn_sin=" + ssnSin +
+                ", creation_date='" + creationDate +
+                "\', type =" + type +
                 '}';
     }
 }

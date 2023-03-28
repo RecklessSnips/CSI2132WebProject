@@ -1,6 +1,7 @@
 package Servlet;
 
-import Databases.PersonDB;
+import Databases.AccountDB;
+import Databases.Database;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,15 +13,21 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/person")
 public class PersonServlet extends HttpServlet {
 
+    Database db;
+    AccountDB accountDB;
+
     @Override
     public void init() throws ServletException {
-        PersonDB personDB = null;
+        db = new Database();
+        accountDB = new AccountDB(db);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        doPost(req, resp);
         System.out.println("hi");
+
+        accountDB.checkIfLogInIsValid("username", "password");
     }
 
     @Override
@@ -30,6 +37,8 @@ public class PersonServlet extends HttpServlet {
 
     @Override
     public void destroy() {
+
+        db.disconnect();
         super.destroy();
     }
 }

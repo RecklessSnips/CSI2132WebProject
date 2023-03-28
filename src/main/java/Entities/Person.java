@@ -1,5 +1,7 @@
 package Entities;
 
+import Utilities.Address;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

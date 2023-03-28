@@ -1,5 +1,7 @@
 package Entities;
 
+import Utilities.Address;
+
 public class HotelChain {
     private int chainId;
     private String chainName;
