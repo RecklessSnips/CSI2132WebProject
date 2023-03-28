@@ -1,4 +1,4 @@
-package com.example.csi2132webproject;
+package Databases;
 import java.sql.*;
 
 public class DatabaseAccessor {

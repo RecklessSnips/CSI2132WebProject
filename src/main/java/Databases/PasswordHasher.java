@@ -1,4 +1,4 @@
-package com.example.csi2132webproject;
+package Databases;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
