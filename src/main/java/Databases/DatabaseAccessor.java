@@ -1,14 +1,20 @@
 package Databases;
 import java.sql.*;
 
-public class DatabaseAccessor {
+public abstract class DatabaseAccessor {
+    private final String JDBC = "org.postgresql.Driver";
+    private final String URL = "jdbc:postgresql://localhost:";
+    private final String USER = "postgres";
+    private final String DBPORT = "5433";
+    private final String DBNAME = "HotelManager";
+    private final String PASSWORD = "admin";
+    protected Connection connection = null;
 
-    private Connection connection = null;
-
-    public boolean connect (String dbname, String dbport, String user, String password) {
+//    public boolean connect (String dbname, String dbport, String user, String password)
+    public boolean connect () {
         try{
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:"+dbport+"/"+dbname,user,password);
+            Class.forName(JDBC);
+            connection = DriverManager.getConnection(URL+DBPORT+"/"+DBNAME,USER,PASSWORD);
             return connection != null;
         }
         catch (Exception e) {
@@ -19,7 +25,6 @@ public class DatabaseAccessor {
 
     public boolean disconnect () {
         if(connection==null) return false;
-
         try{
             connection.close();
             return true;
@@ -36,7 +41,6 @@ public class DatabaseAccessor {
             while (resultSet.next()) {
                 System.out.println(resultSet.getString("chain_name"));
             }
-
             return true;
         });
     }

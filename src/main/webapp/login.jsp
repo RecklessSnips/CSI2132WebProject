@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="login.css">
   </head>
   <body>
-    <form>
+    <form method="post">
       <h1>Login</h1>
       <div class="error">
         <p>Error message goes here</p>

@@ -9,5 +9,10 @@
 </h1>
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
+<form action="login.jsp" method="post">
+    Name: <input type="text" name="">
+    <br>
+    <button>trans</button>
+</form>
 </body>
 </html>
