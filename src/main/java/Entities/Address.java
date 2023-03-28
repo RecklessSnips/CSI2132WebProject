@@ -8,24 +8,12 @@ public class Address {
     private String region;
     private String country;
 
-    public boolean isValid() {
-        return isValid;
-    }
-    public int getStreetNumber() {
-        return streetNumber;
-    }
-    public String getStreetName() {
-        return streetName;
-    }
-    public String getCity() {
-        return city;
-    }
-    public String getRegion() {
-        return region;
-    }
-    public String getCountry() {
-        return country;
-    }
+    public boolean isValid() { return isValid; }
+    public int getStreetNumber() { return streetNumber; }
+    public String getStreetName() { return streetName; }
+    public String getCity() { return city; }
+    public String getRegion() { return region; }
+    public String getCountry() { return country; }
 
     public static Address parseSQLAddress (String sqlAddress) {
         Address add = new Address();

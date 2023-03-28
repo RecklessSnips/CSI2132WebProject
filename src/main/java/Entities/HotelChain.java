@@ -1,66 +1,43 @@
 package Entities;
 
 public class HotelChain {
-    private int chain_id;
-    private String chain_name;
-    private String address_central_office;
+    private int chainId;
+    private String chainName;
+    private Address addressCentralOffice;
     private String email;
     private String phone;
 
-    public HotelChain(int chain_id, String chain_name, String address_central_office, String email, String phone) {
-        this.chain_id = chain_id;
-        this.chain_name = chain_name;
-        this.address_central_office = address_central_office;
-        this.email = email;
-        this.phone = phone;
-    }
-
     public int getChain_id() {
-        return chain_id;
+        return chainId;
     }
-
-    public void setChain_id(int chain_id) {
-        this.chain_id = chain_id;
-    }
-
     public String getChain_name() {
-        return chain_name;
+        return chainName;
     }
-
-    public void setChain_name(String chain_name) {
-        this.chain_name = chain_name;
+    public Address getAddress_central_office() {
+        return addressCentralOffice;
     }
-
-    public String getAddress_central_office() {
-        return address_central_office;
-    }
-
-    public void setAddress_central_office(String address_central_office) {
-        this.address_central_office = address_central_office;
-    }
-
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public HotelChain(int chainId, String chainName, Address addressCentralOffice, String email, String phone) {
+        this.chainId = chainId;
+        this.chainName = chainName;
+        this.addressCentralOffice = addressCentralOffice;
+        this.email = email;
         this.phone = phone;
     }
+
 
     @Override
     public String toString() {
         return "HotelChain{" +
-                "chain_id=" + chain_id +
-                ", chain_name='" + chain_name + '\'' +
-                ", address_central_office='" + address_central_office + '\'' +
+                "chain_id=" + chainId +
+                ", chain_name='" + chainName + '\'' +
+                ", address_central_office='" + addressCentralOffice + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';

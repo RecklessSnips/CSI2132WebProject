@@ -1,68 +1,47 @@
 package Entities;
 
 public class Account {
-    private int account_id;
-    private int person_id;
+    private int accountId;
+    private int personId;
     private String username;
-    private int ssn_sin;
-    private String creation_date;
+    private int ssnSin;
+    private String creationDate;
+    private AccountType type;
 
-    public Account(int account_id, int person_id, String username, int ssn_sin, String creation_date) {
-        this.account_id = account_id;
-        this.person_id = person_id;
-        this.username = username;
-        this.ssn_sin = ssn_sin;
-        this.creation_date = creation_date;
+    public int getAccountId() {
+        return accountId;
     }
-
-    public int getAccount_id() {
-        return account_id;
-    }
-
-    public void setAccount_id(int account_id) {
-        this.account_id = account_id;
-    }
-
     public int getPerson_id() {
-        return person_id;
+        return personId;
     }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
-
     public String getUsername() {
         return username;
     }
+    public int getSsnSin() {
+        return ssnSin;
+    }
+    public String getCreationDate() {
+        return creationDate;
+    }
 
-    public void setUsername(String username) {
+    public Account(int accountId, int personId, AccountType type, String username, int ssnSin, String creationDate) {
+        this.accountId = accountId;
+        this.personId = personId;
+        this.type = type;
         this.username = username;
+        this.ssnSin = ssnSin;
+        this.creationDate = creationDate;
     }
 
-    public int getSsn_sin() {
-        return ssn_sin;
-    }
-
-    public void setSsn_sin(int ssn_sin) {
-        this.ssn_sin = ssn_sin;
-    }
-
-    public String getCreation_date() {
-        return creation_date;
-    }
-
-    public void setCreation_date(String creation_date) {
-        this.creation_date = creation_date;
-    }
 
     @Override
     public String toString() {
         return "Account{" +
-                "account_id=" + account_id +
-                ", person_id=" + person_id +
+                "account_id=" + accountId +
+                ", person_id=" + personId +
                 ", username='" + username + '\'' +
-                ", ssn_sin=" + ssn_sin +
-                ", creation_date='" + creation_date + '\'' +
+                ", ssn_sin=" + ssnSin +
+                ", creation_date='" + creationDate + '\'' +
                 '}';
     }
 }
