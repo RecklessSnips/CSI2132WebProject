@@ -17,6 +17,17 @@ public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDe
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public Address getAddress() { return address; }
+    public void setFirstName (String firstName) {this.firstName = firstName;}
+    public void setLastName(String lastName) {this.lastName = lastName;}
+    public void setAddress(Address address) {this.address = address;}
+
+    
+    public Person () {}
+    public Person (String firstName, String lastName, Address address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
 
     public final String insertQuery =
             "INSERT INTO Person(first_name, last_name, address)VALUES (?,?,?);";

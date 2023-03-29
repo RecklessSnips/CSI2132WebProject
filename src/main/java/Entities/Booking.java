@@ -19,6 +19,8 @@ public class Booking implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLD
     public int getRoomId() { return roomId; }
     public Date getStartDate() { return startDate; }
     public Date getEndDate() { return endDate; }
+    public void setStartDate (Date date) { this.startDate = date; }
+    public void setEndDate (Date date) { this.endDate = date; }
 
     public Booking () {}
     public Booking (int roomId, int personId, Date startDate, Date endDate) {
