@@ -142,7 +142,31 @@ CREATE TABLE Booking (
 		ON DELETE SET NULL
 );
 
--- TODO: Indexes for booking
+-- Avoid booking overlaps
+CREATE OR REPLACE FUNCTION check_booking_overlap()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM Booking
+        WHERE room_id = NEW.room_id
+        AND NOT (end_date <= NEW.start_date OR start_date >= NEW.end_date)
+    ) THEN
+        RAISE EXCEPTION 'Booking overlaps with existing bookings for this room';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER booking_overlap_check
+BEFORE INSERT ON Booking
+FOR EACH ROW
+EXECUTE FUNCTION check_booking_overlap();
+
+-- There is going to be a lot of bookings.
+-- We need to find the booking of a person fast, and the booking of a room fast.
+CREATE INDEX booking_person_index ON Booking(person_id);
+CREATE INDEX booking_room_index ON Booking(room_id);
 
 
 -- This is our playground

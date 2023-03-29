@@ -1,5 +1,7 @@
 package Entities;
 
+import Utilities.Address;
+
 public class Hotel {
 
     private int hotelId;

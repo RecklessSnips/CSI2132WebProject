@@ -1,6 +1,7 @@
 package Servlet;
 
-import Databases.PersonDB;
+import Databases.AccountDB;
+import Databases.Database;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,29 +10,35 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/login.jsp")
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/person")
+public class PersonServlet extends HttpServlet {
+
+    Database db;
+    AccountDB accountDB;
 
     @Override
     public void init() throws ServletException {
-        PersonDB personDB = null;
+        db = new Database();
+        accountDB = new AccountDB(db);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("get");
-        doPost(req, resp);
+//        doPost(req, resp);
+        System.out.println("hi");
+
+        accountDB.checkIfLogInIsValid("username", "password");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp);
-        resp.sendRedirect("/CSI2132WebProject_war_exploded/customer");
-        System.out.println("post");
     }
 
     @Override
     public void destroy() {
+
+        db.disconnect();
         super.destroy();
     }
 }

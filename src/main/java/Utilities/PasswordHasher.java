@@ -1,15 +1,16 @@
-package Databases;
+package Utilities;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 import java.util.Random;
 
 public class PasswordHasher {
-    public static String hash (String userpassword, String salt) {
+    public static String hash (String username, String password, String salt) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA3-256");
-            byte[] result = md.digest((userpassword + salt).getBytes());
+            byte[] result = md.digest((username + password + salt).getBytes());
             return bytesToHex(result);
         }
         catch (NoSuchAlgorithmException e){
@@ -17,8 +18,8 @@ public class PasswordHasher {
         }
     }
 
-    public static boolean checkHash (String hashedpassword, String userpassword, String salt) {
-        return hashedpassword == hash(userpassword, salt);
+    public static boolean checkHash (String hash, String username, String password, String salt) {
+        return hash.equals(hash(username, password, salt));
     }
 
     public static String generateSalt () {
