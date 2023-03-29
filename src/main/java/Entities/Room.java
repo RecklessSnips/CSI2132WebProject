@@ -22,7 +22,7 @@ public class Room implements ISQLReadable {
     public double getPricePerNight() { return pricePerNight; }
     public int getRoomCapacity() { return roomCapacity; }
     public int getExtensionCapacity() { return extensionCapacity; }
-    public int getTags() { return tags; }
+    public boolean checkIfRoomHasTag (RoomTags tag) { return tag.checkIfTagIsPresent(this.tags);}
     public String getNotes() { return notes; }
 
     public Room () {}
