@@ -2,25 +2,7 @@
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         metadata-complete="false"
          version="5.0">
-
-    <servlet>
-        <servlet-name>personServlet</servlet-name>
-        <servlet-class>Servlet.PersonServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>personServlet</servlet-name>
-        <url-pattern>/customer/loginn</url-pattern>
-    </servlet-mapping>
-
-
-<!--    <servlet>-->
-<!--        <servlet-name>LoginServlet</servlet-name>-->
-<!--        <jsp-file>/customer/login.html.jsp</jsp-file>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>LoginServlet</servlet-name>-->
-<!--        <url-pattern>/customer</url-pattern>-->
-<!--    </servlet-mapping>-->
+<!--  可以查看 http://c.biancheng.net/servlet2/what-is-servlet.html 了解相关知识  -->
 </web-app>
