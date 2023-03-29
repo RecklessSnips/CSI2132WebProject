@@ -11,10 +11,16 @@
   }
   
   .container {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0 15px;
   }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
   
   header {
     background-color: #0b6ed1;
@@ -28,7 +34,7 @@
   
   header form {
     display: inline-block;
-    margin: 10px 0 0 20px;
+    margin: 0;
   }
   
   header input[type="text"] {
@@ -87,6 +93,10 @@
     margin-bottom: 10px;
   }
   
+  .search-button{
+    color: black
+  }
+
   .filters button[type="submit"] {
     padding: 10px 15px;
     font-size: 16px;
@@ -193,6 +203,24 @@
     font-size: 14px;
     box-sizing: border-box;
   }
+  header button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .login-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  
+
+
   
   
   @media screen and (max-width: 767px) {
@@ -217,4 +245,5 @@
       width: 100%;
       border-radius: 5px;
     }
+    
   }

@@ -11,10 +11,15 @@
         <h1>Hotel Search Page</h1>
         <form>
           <input type="text" placeholder="Search for items...">
-          <button type="submit">Search</button>
+          <button type="submit" class="search-button">Search</button>
         </form>
+        <div class="login-buttons">
+          <a href="./login.html"><button class="login-btn">Login</button></a>
+          <a href="./signup.html"><button class="signup-btn">Sign Up</button></a>
+          <a href="./profile.html"><button class="signup-btn">My Profile</button></a>
+        </div>
       </div>
-      <button>Login</button>
+      
     </header>
     <main>
       <div class="container">
@@ -83,27 +88,27 @@
             <li>
               <div class="item">
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Item Title</h3>
+                <h3>Hotel Name</h3>
                 <p>Item Description</p>
-                <p class="price">$50.00</p>
+                <p class="price">$25.00 per night</p>
                 <p class="location">Toronto, ON</p>
               </div>
             </li>
             <li>
               <div class="item">
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Item Title</h3>
+                <h3>Hotel Name</h3>
                 <p>Item Description</p>
-                <p class="price">$100.00</p>
+                <p class="price">$100.00 per night</p>
                 <p class="location">Mississauga, ON</p>
               </div>
             </li>
             <li>
               <div class="item">
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Item Title</h3>
+                <h3>Hotel Name</h3>
                 <p>Item Description</p>
-                <p class="price">$75.00</p>
+                <p class="price">$75.00 per night</p>
                 <p class="location">Brampton, ON</p>
               </div>
             </li>
