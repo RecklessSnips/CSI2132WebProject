@@ -1,13 +1,15 @@
-package Databases;
+package Utilities;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-class AccessResult {
+public class AccessResult {
     private boolean success;
     private Object result;
 
-    public AccessResult (boolean success, Object result) {
+    public AccessResult(boolean success, Object result) {
         this.success = success;
         this.result = result;
     }
@@ -20,15 +22,15 @@ class AccessResult {
         return result;
     }
 
-    public static AccessResult failed () {
+    public static AccessResult failed() {
         return new AccessResult(false, null);
     }
 }
 
-interface IAccessRunFunction {
+public interface IAccessRunFunction {
     boolean tryRun(Connection conn) throws SQLException;
 }
 
-interface IAccessReturnFunction {
+public interface IAccessReturnFunction {
     AccessResult tryReturn(Connection conn) throws SQLException;
 }

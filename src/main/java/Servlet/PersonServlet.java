@@ -1,6 +1,6 @@
 package Servlet;
 
-import Databases.AccountDB;
+import Databases.AccountAccessor;
 import Databases.Database;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,12 +14,12 @@ import java.io.IOException;
 public class PersonServlet extends HttpServlet {
 
     Database db;
-    AccountDB accountDB;
+    AccountAccessor accountAcc;
 
     @Override
     public void init() throws ServletException {
         db = new Database();
-        accountDB = new AccountDB(db);
+        accountAcc = new AccountAccessor(db);
         System.out.println("Created");
     }
 
@@ -28,14 +28,14 @@ public class PersonServlet extends HttpServlet {
 //        doPost(req, resp);
         System.out.println("hi");
 
-        accountDB.checkIfLogInIsValid("username", "password");
+        accountAcc.checkIfLogInIsValid("username", "password");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp);
         System.out.println("post");
-        accountDB.checkIfLogInIsValid("username", "password");
+        accountAcc.checkIfLogInIsValid("username", "password");
         resp.sendRedirect("/CSI2132WebProject_war_exploded/customer/loginn.html");
     }
 

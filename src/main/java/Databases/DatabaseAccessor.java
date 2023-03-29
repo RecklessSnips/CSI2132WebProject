@@ -1,5 +1,9 @@
 package Databases;
 
+import Utilities.AccessResult;
+import Utilities.IAccessReturnFunction;
+import Utilities.IAccessRunFunction;
+
 import java.sql.*;
 
 public abstract class DatabaseAccessor {

@@ -11,6 +11,7 @@ public class Hotel implements ISQLReadable {
     private int chainId;
     private int managerId;
     private Address address;
+    private String area;
     private String phone;
     private double rating;
     private int roomCount;
@@ -33,10 +34,11 @@ public class Hotel implements ISQLReadable {
         chainId = resultSet.getInt(2);
         managerId = resultSet.getInt(3);
         address = Address.parseSQLAddress(resultSet.getString(4));
-        phone = resultSet.getString(5);
-        rating = resultSet.getDouble(6);
-        roomCount = resultSet.getInt(7);
-        category = HotelType.getEnum(resultSet.getInt(8));
+        area = resultSet.getString(5);
+        phone = resultSet.getString(6);
+        rating = resultSet.getDouble(7);
+        roomCount = resultSet.getInt(8);
+        category = HotelType.getEnum(resultSet.getInt(9));
     }
 
     @Override
@@ -46,6 +48,7 @@ public class Hotel implements ISQLReadable {
                 ", chain_id=" + chainId +
                 ", manager_id=" + managerId +
                 ", address='" + address + '\'' +
+                ", area='" + area + '\'' +
                 ", phone='" + phone + '\'' +
                 ", rating='" + rating + '\'' +
                 ", room_count=" + roomCount +

@@ -1,14 +1,15 @@
 package Databases;
 
 import Entities.AccountCredential;
+import Utilities.AccessResult;
 import Utilities.PasswordHasher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class AccountDB extends DatabaseAccessor{
+public class AccountAccessor extends DatabaseAccessor{
 
-    public AccountDB(Database database) {
+    public AccountAccessor(Database database) {
         super(database);
     }
 
