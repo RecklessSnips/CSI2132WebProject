@@ -48,5 +48,7 @@
     </form>
     <a href="login.html">Already have an account?</a>
   </div>
+  <button class="back-button" onclick="history.back()">Back</button>
 </body>
+
 </html>

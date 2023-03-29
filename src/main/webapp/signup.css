@@ -67,5 +67,17 @@ body {
   button[type="submit"]:hover {
     background-color: #0062cc;
   }
-  
+
+  .back-button {
+    display: block;
+    background-color: #0b6ed1;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+  }
   
