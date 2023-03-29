@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/person")
-public class PersonServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/login.jsp")
+public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
@@ -19,13 +19,15 @@ public class PersonServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        doPost(req, resp);
-        System.out.println("hi");
+        System.out.println("get");
+        doPost(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp);
+        resp.sendRedirect("/CSI2132WebProject_war_exploded/customer");
+        System.out.println("post");
     }
 
     @Override

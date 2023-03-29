@@ -3,11 +3,11 @@
 <html>
   <head>
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="../login.css">
   </head>
   <body>
     <form method="post">
-      <h1>Login</h1>
+      <h1><%= "Log in" %></h1>
       <div class="error">
         <p>Error message goes here</p>
       </div>

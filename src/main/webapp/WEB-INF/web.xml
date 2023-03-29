@@ -4,13 +4,21 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+<!--    <servlet>-->
+<!--        <servlet-name>person_servlet</servlet-name>-->
+<!--        <servlet-class>Servlet.first</servlet-class>-->
+<!--    </servlet>-->
+<!--    -->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>person_servlet</servlet-name>-->
+<!--        <url-pattern>/myFirst</url-pattern>-->
+<!--    </servlet-mapping>-->
     <servlet>
-        <servlet-name>person_servlet</servlet-name>
-        <servlet-class>Servlet.first</servlet-class>
+        <servlet-name>LoginServlet</servlet-name>
+        <jsp-file>/customer/login.jsp</jsp-file>
     </servlet>
-    
     <servlet-mapping>
-        <servlet-name>person_servlet</servlet-name>
-        <url-pattern>/myFirst</url-pattern>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/customer</url-pattern>
     </servlet-mapping>
 </web-app>
