@@ -1,38 +1,34 @@
 package Entities;
 
 import Utilities.Address;
+import Utilities.ISQLReadable;
 
-public class HotelChain {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class HotelChain implements ISQLReadable {
     private int chainId;
     private String chainName;
     private Address addressCentralOffice;
     private String email;
     private String phone;
 
-    public int getChain_id() {
-        return chainId;
-    }
-    public String getChain_name() {
-        return chainName;
-    }
-    public Address getAddress_central_office() {
-        return addressCentralOffice;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public String getPhone() {
-        return phone;
-    }
+    public int getChainId() { return chainId; }
+    public String getChainName() { return chainName; }
+    public Address getAddressCentralOffice() { return addressCentralOffice; }
+    public String getEmail() { return email; }
+    public String getPhone() { return phone; }
 
-    public HotelChain(int chainId, String chainName, Address addressCentralOffice, String email, String phone) {
-        this.chainId = chainId;
-        this.chainName = chainName;
-        this.addressCentralOffice = addressCentralOffice;
-        this.email = email;
-        this.phone = phone;
-    }
+    public HotelChain () {}
 
+    @Override
+    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
+        chainId = resultSet.getInt(1);
+        chainName = resultSet.getString(2);
+        addressCentralOffice = Address.parseSQLAddress(resultSet.getString(3));
+        email = resultSet.getString(4);
+        phone = resultSet.getString(5);
+    }
 
     @Override
     public String toString() {

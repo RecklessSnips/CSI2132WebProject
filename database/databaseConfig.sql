@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS Account CASCADE;
 DROP TABLE IF EXISTS CustomerAccount CASCADE;
 DROP TABLE IF EXISTS EmployeeAccount CASCADE;
 DROP TABLE IF EXISTS Booking CASCADE;
+DROP TABLE IF EXISTS Renting CASCADE;
 DROP FUNCTION IF EXISTS archiveRoom;
 
 -- Basis for all persons
@@ -114,7 +115,7 @@ CREATE TABLE RoomArchive(
 );
 
 -- Automatically archive rooms as they get deleted
-CREATE FUNCTION archiveRoom() RETURNS trigger AS $$
+CREATE FUNCTION archive_room() RETURNS trigger AS $$
 BEGIN
 	INSERT INTO RoomArchive(room_id, room_number, hotel_id, price_per_night, room_capacity, extension_capacity, tags, notes)
 	VALUES (OLD.room_id, OLD.room_number, OLD.hotel_id, OLD.price_per_night, OLD.room_capacity, OLD.extension_capacity, OLD.tags, OLD.notes);
@@ -124,7 +125,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER archiveRoom
 BEFORE DELETE ON Room FOR EACH ROW
-EXECUTE PROCEDURE archiveRoom();
+EXECUTE PROCEDURE archive_room();
 
 -- Room ID isn't checked. The foreign key might be pointing to a room or archived room.
 -- Either way the ID SHOULD be valid.
@@ -142,7 +143,9 @@ CREATE TABLE Booking (
 		ON DELETE SET NULL
 );
 
--- Avoid booking overlaps
+CREATE TABLE Renting (LIKE Booking INCLUDING ALL);
+
+
 CREATE OR REPLACE FUNCTION check_booking_overlap()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -162,6 +165,20 @@ CREATE TRIGGER booking_overlap_check
 BEFORE INSERT ON Booking
 FOR EACH ROW
 EXECUTE FUNCTION check_booking_overlap();
+
+-- Automatically archive bookings to rentings
+CREATE OR REPLACE FUNCTION copy_booking_to_renting() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Renting SELECT * FROM Booking WHERE Booking.booking_id = NEW.booking_id;
+    DELETE FROM Booking WHERE Booking.id = NEW.booking_id;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER copy_booking_to_renting_trigger
+    AFTER INSERT ON Renting
+    FOR EACH ROW
+    EXECUTE FUNCTION copy_booking_to_renting();
 
 -- There is going to be a lot of bookings.
 -- We need to find the booking of a person fast, and the booking of a room fast.

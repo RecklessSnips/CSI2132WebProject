@@ -1,57 +1,43 @@
 package Entities;
 
 import Utilities.Address;
+import Utilities.ISQLReadable;
 
-public class Hotel {
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+public class Hotel implements ISQLReadable {
     private int hotelId;
     private int chainId;
     private int managerId;
     private Address address;
     private String phone;
-    private float rating;
+    private double rating;
     private int roomCount;
-    private HotelCategory category;
-    private HotelChain hotelChain; // TODO: Figure out how to load
+    private HotelType category;
 
+    public int getHotelId() { return hotelId;}
+    public int getChainId() { return chainId; }
+    public int getManagerId() { return managerId; }
+    public Address getAddress() { return address; }
+    public String getPhone() { return phone; }
+    public double getRating() { return rating; }
+    public int getRoomCount() { return roomCount; }
+    public HotelType getCategory() { return category; }
 
-    public int getHotelId() {
-        return hotelId;
-    }
-    public int getChainId() {
-        return chainId;
-    }
-    public int getManager_id() {
-        return managerId;
-    }
-    public Address getAddress() {
-        return address;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public float getRating() {
-        return rating;
-    }
-    public int getRoomCount() {
-        return roomCount;
-    }
-    public HotelCategory getCategory() {return category;}
-    public String getChainName() {
-        return "This hotel belongs to: " + hotelChain.getChain_name();
-    }
+    public Hotel () {}
 
-    public Hotel(int hotelId, HotelChain hotelChain, int managerId, Address address, String phone, float rating, int roomCount, HotelCategory category) {
-        this.hotelId = hotelId;
-        this.chainId = hotelChain.getChain_id();
-        this.managerId = managerId;
-        this.address = address;
-        this.phone = phone;
-        this.rating = rating;
-        this.roomCount = roomCount;
-        this.category = category;
+    @Override
+    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
+        hotelId = resultSet.getInt(1);
+        chainId = resultSet.getInt(2);
+        managerId = resultSet.getInt(3);
+        address = Address.parseSQLAddress(resultSet.getString(4));
+        phone = resultSet.getString(5);
+        rating = resultSet.getDouble(6);
+        roomCount = resultSet.getInt(7);
+        category = HotelType.getEnum(resultSet.getInt(8));
     }
-
 
     @Override
     public String toString() {

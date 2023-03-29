@@ -19,6 +19,8 @@ public class PasswordHasher {
     }
 
     public static boolean checkHash (String hash, String username, String password, String salt) {
+        if(hash == null || hash.isEmpty() || hash.length() != 64) return false;
+
         return hash.equals(hash(username, password, salt));
     }
 

@@ -1,10 +1,12 @@
 package Entities;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Utilities.ISQLDeletable;
+import Utilities.ISQLReadable;
+import Utilities.ISQLWritable;
 
-public class Account implements ISQLParsable {
+import java.sql.*;
+
+public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
     private int accountId;
     private int personId;
     private String username;
@@ -18,16 +20,42 @@ public class Account implements ISQLParsable {
     public String getSsnSin() { return ssnSin; }
     public Date getCreationDate() { return creationDate; }
 
-    @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        accountId = resultSet.getInt(0);
-        personId = resultSet.getInt(1);
-        username = resultSet.getString(2);
-        ssnSin = resultSet.getString(3);
-        creationDate = resultSet.getDate(4);
-        type = AccountType.values()[resultSet.getInt(5)];
+    public Account () {}
+    public Account (int personId, String username, String ssnSin, AccountType type) {
+        this.personId = personId;
     }
 
+    public final String insertQuery =
+        "INSERT INTO Account(person_id, account_type, username, ssn_sin, creation_date)VALUES (?,?,?,?,NOW())";
+    public final String deleteQuery =
+        "DELETE FROM Account WHERE account_id = ?;";
+
+    @Override
+    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
+        accountId = resultSet.getInt(1);
+        personId = resultSet.getInt(2);
+        username = resultSet.getString(3);
+        ssnSin = resultSet.getString(4);
+        creationDate = resultSet.getDate(5);
+        type = AccountType.getEnum(resultSet.getInt(6));
+    }
+
+    @Override
+    public void WriteFromStatement(Connection conn) throws SQLException {
+        if(personId == 0) throw new SQLException("Invalid person ID");
+
+        PreparedStatement statement = conn.prepareStatement(insertQuery);
+        statement.setInt(1, personId);
+        statement.setInt(2, type.getValue());
+    }
+
+    @Override
+    public void DeleteFromStatement(Connection conn) throws SQLException {
+        if(accountId == 0) throw new SQLException("Invalid account ID");
+
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, accountId);
+    }
 
     @Override
     public String toString() {

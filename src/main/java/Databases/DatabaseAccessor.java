@@ -1,5 +1,4 @@
 package Databases;
-import Entities.AccountCredidentials;
 
 import java.sql.*;
 
@@ -11,19 +10,6 @@ public abstract class DatabaseAccessor {
         this.database = database;
     }
 
-
-
-
-    public boolean printHotelChains () {
-        return tryRunStatement((conn) -> {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("select chain_name from HotelChain");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("chain_name"));
-            }
-            return true;
-        });
-    }
 
     protected boolean tryRunStatement (IAccessRunFunction function) {
         Connection connection = database.getConnection();

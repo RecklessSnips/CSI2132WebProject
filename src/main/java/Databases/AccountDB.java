@@ -1,9 +1,8 @@
 package Databases;
 
-import Entities.AccountCredidentials;
+import Entities.AccountCredential;
 import Utilities.PasswordHasher;
 
-import javax.security.auth.login.CredentialException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -13,7 +12,7 @@ public class AccountDB extends DatabaseAccessor{
         super(database);
     }
 
-    private AccountCredidentials checkForAccountWithUsername (String username) {
+    private AccountCredential checkForAccountWithUsername (String username) {
         AccessResult result = tryReturnStatement((conn) -> {
 
             // Creating a SQL-Injection proof statement to search for username
@@ -23,7 +22,7 @@ public class AccountDB extends DatabaseAccessor{
 
             // If there's a result, read it.
             if(resultSet.next()) {
-                AccountCredidentials acc = new AccountCredidentials();
+                AccountCredential acc = new AccountCredential();
                 acc.ReadFromResultSet(resultSet);
                 return new AccessResult(true, acc);
             }
@@ -32,11 +31,11 @@ public class AccountDB extends DatabaseAccessor{
             return AccessResult.failed();
 
         });
-        return (AccountCredidentials) result.getResult();
+        return (AccountCredential) result.getResult();
     }
 
     public boolean checkIfLogInIsValid (String username, String password) {
-        AccountCredidentials acc = checkForAccountWithUsername(username);
+        AccountCredential acc = checkForAccountWithUsername(username);
 
         if(acc == null) {
             return false;
