@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/person")
+//@WebServlet(urlPatterns = "/loginn")
 public class PersonServlet extends HttpServlet {
 
     Database db;
@@ -20,6 +20,7 @@ public class PersonServlet extends HttpServlet {
     public void init() throws ServletException {
         db = new Database();
         accountDB = new AccountDB(db);
+        System.out.println("Created");
     }
 
     @Override
@@ -33,11 +34,14 @@ public class PersonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp);
+        System.out.println("post");
+        accountDB.checkIfLogInIsValid("username", "password");
+        resp.sendRedirect("/CSI2132WebProject_war_exploded/customer/loginn.html");
     }
 
     @Override
     public void destroy() {
-
+        System.out.println("Destroyed");
         db.disconnect();
         super.destroy();
     }
