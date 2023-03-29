@@ -41,12 +41,16 @@ public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
     }
 
     @Override
-    public void WriteFromStatement(Connection conn) throws SQLException {
+    public int WriteFromStatement(Connection conn) throws SQLException {
         if(personId == 0) throw new SQLException("Invalid person ID");
 
-        PreparedStatement statement = conn.prepareStatement(insertQuery);
+        PreparedStatement statement = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
         statement.setInt(1, personId);
         statement.setInt(2, type.getValue());
+
+        ResultSet rs = statement.getGeneratedKeys();
+        accountId = rs.getInt(1);
+        return accountId;
     }
 
     @Override

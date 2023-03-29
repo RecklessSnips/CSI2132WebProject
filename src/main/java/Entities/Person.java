@@ -34,12 +34,15 @@ public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDe
     }
 
     @Override
-    public void WriteFromStatement(Connection conn) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(insertQuery);
+    public int WriteFromStatement(Connection conn) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
         statement.setString(1, firstName);
         statement.setString(2, lastName);
         statement.setString(3, address.toString());
         statement.executeQuery();
+        ResultSet rs = statement.getGeneratedKeys();
+        personID = rs.getInt(1);
+        return personID;
     }
 
     @Override
