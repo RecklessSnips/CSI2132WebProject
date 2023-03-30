@@ -14,7 +14,7 @@
     <option name="tomcatInfo">
       <TomcatInfo>
         <option name="name" value="Apache Tomcat/10.1.7" />
-        <option name="path" value="$PROJECT_DIR$/../../../../Program Files/Apache Software Foundation/Tomcat 10.1" />
+        <option name="path" value="/Applications/apache-tomcat-10.1.7" />
         <option name="version" value="10.1.7.0" />
       </TomcatInfo>
     </option>
