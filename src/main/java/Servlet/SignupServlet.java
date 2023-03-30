@@ -45,10 +45,6 @@ public class SignupServlet extends HttpServlet {
         String SSN = req.getParameter("ssn");
         String address = req.getParameter("address");
 
-        if ( ! (username != null && SSN != null)){
-
-        }
-
         AccountCredential accountCredential = new AccountCredential(0, username, password);
         Account account = new Account(0, username, SSN, AccountType.Client);
 //        Person person = new Person(firstName, lastName, address);
