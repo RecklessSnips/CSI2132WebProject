@@ -46,9 +46,8 @@
       <button type="submit" onclick="location.href='search.jsp'">Sign Up</button>
       
     </form>
-    <a href="login.jsp">Already have an account?</a>
+    <button onclick="location.href='index.jsp'">Already have an account?</button>
   </div>
-  <button class="back-button" onclick="location.href='index.jsp'">Back</button>
 </body>
 
 </html>

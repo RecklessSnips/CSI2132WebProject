@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
   </head>
   <body>
     <div class="container">
@@ -19,7 +19,7 @@
       <button type="submit" class="login-button">Login</button>
       
     </form>
-    <button class="back-button" onclick="location.href='index.jsp'">Back</button>
+    <button class="back-button" onclick="location.href='signup.jsp'">Sign Up</button>
   </div>
   </body>
 </html>

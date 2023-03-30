@@ -1,249 +1,58 @@
-/* Global Styles */
 
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  
-  header {
-    background-color: #0b6ed1;
-    color: #fff;
-    padding: 20px;
-  }
-  
-  header h1 {
-    margin: 0;
-  }
-  
-  header form {
-    display: inline-block;
-    margin: 0;
-  }
-  
-  header input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px 0 0 5px;
-    border: none;
-  }
-  
-  header button[type="submit"] {
-    padding: 10px 15px;
-    font-size: 16px;
+body {
+font-family: Arial, sans-serif;
+background-color: #f2f2f2;
+}
+      
+.container {
     background-color: #fff;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-  }
-  
-  main {
-    margin: 30px 0;
-  }
-  
-  .filters {
-    width: 30%;
-    float: left;
-    background-color: #f2f2f2;
-    padding: 20px;
     border-radius: 5px;
-  }
-  
-  .filters h2 {
-    margin-top: 0;
-  }
-  
-  .filters form {
-    margin-top: 20px;
-  }
-  
-  .filters label {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    padding: 20px;
+    max-width: 400px;
+    margin: 50px auto;
+}
+      
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+      
+label {
     display: block;
     margin-bottom: 10px;
-  }
-  
-  .filters select,
-  .filters input[type="text"] {
-    width: 100%;
+}
+      
+input[type="text"], input[type="password"] {
     padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 10px;
-  }
-  
-  .filters input[type="range"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .search-button{
-    color: black
-  }
-
-  .filters button[type="submit"] {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #0b6ed1;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .results {
-    width: 70%;
-    float: right;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #fff;
-  }
-  
-  .results h2 {
-    margin-top: 0;
-  }
-  
-  .results ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .results li {
-    margin-bottom: 20px;
-  }
-  
-  .item {
-    display: flex;
-    gap: 2rem;
-  }
-  
-  .item img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .item h3 {
-    margin-top: 0;
-  }
-  
-  .item p {
-    margin: 0;
-  }
-  
-  .price {
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 10px;
-  }
-  
-  .location {
-    font-size: 14px;
-    color: #999;
-    margin-top: 5px;
-  }
-  
-  .area {
-    font-size: 14px;
-    color: #999;
-    margin-top: 5px;
-  }
-
-  .room-capacity {
-    font-size: 14px;
-    color: #999;
-    margin-top: 5px;
-  }
-  
-  .range-label {
-    position: absolute;
-    top: 40px;
-    font-size: 14px;
-  }
-  .price-filter {
-    margin-bottom: 20px;
-  }
-  
-  .price-filter label {
-    display: inline-block;
-    width: 50px;
-  }
-  
-  .price-filter .form-group {
-    display: inline-block;
-    width: calc(50% - 30px);
-    margin-right: 20px;
-    vertical-align: top;
-  }
-  
-  .price-filter input[type="number"] {
-    display: block;
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 20px;
     box-sizing: border-box;
-  }
-  header button {
-    background-color: #4CAF50;
-    border: none;
+}
+      
+button {
+    background-color: #0b6ed1;
     color: white;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    border: none;
+    border-radius: 3px;
     cursor: pointer;
-  }
-  .login-buttons {
-    display: flex;
-    gap: 5px;
-  }
-  
+    width: 100%;
+    margin: 10px 0;
+}
 
+      
+button:hover {
+    background-color: #0961b9;
+}
+      
+.error {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+      
 
-  
-  
-  @media screen and (max-width: 767px) {
-    .filters,
-    .results {
-      width: 100%;
-      float: none;
-    }
-  
-    header form {
-      display: block;
-      margin: 10px 0;
-    }
-  
-    header input[type="text"] {
-      width: 100%;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-  
-    header button[type="submit"] {
-      width: 100%;
-      border-radius: 5px;
-    }
-    
-  }
