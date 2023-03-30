@@ -36,7 +36,7 @@
       <button type="submit" class="login-button">Login</button>
       
     </form>
-    <button class="back-button" onclick="location.href='/CSI2132'">Back</button>
+    <button class="back-button" onclick="location.href='/'">Back</button>
   </div>
   </body>
 </html>
