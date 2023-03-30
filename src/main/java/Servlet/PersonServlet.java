@@ -19,8 +19,13 @@ public class PersonServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         db = new Database();
+        db.connect();
         accountAcc = new AccountAccessor(db);
         System.out.println("Created");
+
+        if(accountAcc.checkIfLogInIsValid("matkirk", "joebiden.26")) {
+            System.out.println("matkirk available");
+        }
     }
 
     @Override
@@ -28,14 +33,13 @@ public class PersonServlet extends HttpServlet {
 //        doPost(req, resp);
         System.out.println("hi");
 
-        accountAcc.checkIfLogInIsValid("username", "password");
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp);
         System.out.println("post");
-        accountAcc.checkIfLogInIsValid("username", "password");
         resp.sendRedirect("/CSI2132WebProject_war_exploded/customer/loginn.html");
     }
 

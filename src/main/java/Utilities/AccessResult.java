@@ -27,10 +27,3 @@ public class AccessResult {
     }
 }
 
-public interface IAccessRunFunction {
-    boolean tryRun(Connection conn) throws SQLException;
-}
-
-public interface IAccessReturnFunction {
-    AccessResult tryReturn(Connection conn) throws SQLException;
-}
