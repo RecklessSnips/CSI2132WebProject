@@ -8,12 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDeletable {
-    private int personID;
+    private int personId;
     private String firstName;
     private String lastName;
     private Address address;
 
-    public int getPersonID() { return personID; }
+    public int getPersonId() { return personId; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public Address getAddress() { return address; }
@@ -37,11 +37,16 @@ public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDe
             "DELETE FROM Person WHERE personID = ?;";
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        personID = resultSet.getInt(1);
-        firstName = resultSet.getString(2);
-        lastName = resultSet.getString(3);
-        address = Address.parseSQLAddress(resultSet.getString(4));
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            personId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        firstName = resultSet.getString(2 + startColumn);
+        lastName = resultSet.getString(3 + startColumn);
+        address = Address.parseSQLAddress(resultSet.getString(4 + startColumn));
     }
 
     @Override
@@ -52,35 +57,35 @@ public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDe
         statement.setString(3, address.toString());
         statement.executeQuery();
         ResultSet rs = statement.getGeneratedKeys();
-        personID = rs.getInt(1);
-        return personID;
+        personId = rs.getInt(1);
+        return personId;
     }
 
     @Override
     public void UpdateFromStatement(Connection conn) throws SQLException {
-        if(personID == 0) throw new SQLException("Trying to update Person with uninitialized ID");
+        if(personId == 0) throw new SQLException("Trying to update Person with uninitialized ID");
 
         PreparedStatement statement = conn.prepareStatement(updateQuery);
         statement.setString(1, firstName);
         statement.setString(2, lastName);
         statement.setString(3, address.toString());
-        statement.setInt(4, personID);
+        statement.setInt(4, personId);
         statement.executeQuery();
     }
 
     @Override
     public void DeleteFromStatement(Connection conn) throws SQLException {
-        if(personID == 0) throw new SQLException("Trying to delete Person with uninitialized ID");
+        if(personId == 0) throw new SQLException("Trying to delete Person with uninitialized ID");
 
         PreparedStatement statement = conn.prepareStatement(deleteQuery);
-        statement.setInt(1, personID);
+        statement.setInt(1, personId);
         statement.executeQuery();
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "personID=" + personID +
+                "personID=" + personId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address=" + address +

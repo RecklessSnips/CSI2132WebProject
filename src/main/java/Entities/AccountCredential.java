@@ -28,10 +28,15 @@ public class AccountCredential implements ISQLReadable, ISQLUpdatable {
             "UPDATE Account SET salt=?, hashed_salted_password=?, WHERE account_id = ?;";
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        accountId = resultSet.getInt(1);
-        salt = resultSet.getString(7);
-        hashedSaltPassword = resultSet.getString(8);
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            accountId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        salt = resultSet.getString(7 + startColumn);
+        hashedSaltPassword = resultSet.getString(8 + startColumn);
     }
 
     @Override

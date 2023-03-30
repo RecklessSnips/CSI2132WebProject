@@ -27,15 +27,20 @@ public class Room implements ISQLReadable {
     public Room () {}
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        roomId = resultSet.getInt(1);
-        roomNumber = resultSet.getInt(2);
-        hotelId = resultSet.getInt(3);
-        pricePerNight = resultSet.getDouble(4);
-        roomCapacity = resultSet.getInt(5);
-        extensionCapacity = resultSet.getInt(6);
-        tags = Integer.parseInt(resultSet.getString(7).replace('X', '1'),2);
-        notes = resultSet.getString(8);
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            roomId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        roomNumber = resultSet.getInt(2 + startColumn + startColumn);
+        hotelId = resultSet.getInt(3 + startColumn);
+        pricePerNight = resultSet.getDouble(4 + startColumn);
+        roomCapacity = resultSet.getInt(5 + startColumn);
+        extensionCapacity = resultSet.getInt(6 + startColumn);
+        tags = Integer.parseInt(resultSet.getString(7 + startColumn).replace('X', '1'),2);
+        notes = resultSet.getString(8 + startColumn);
     }
 
     @Override

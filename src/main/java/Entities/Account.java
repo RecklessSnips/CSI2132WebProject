@@ -31,13 +31,18 @@ public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
         "DELETE FROM Account WHERE account_id = ?;";
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        accountId = resultSet.getInt(1);
-        personId = resultSet.getInt(2);
-        username = resultSet.getString(3);
-        ssnSin = resultSet.getString(4);
-        creationDate = resultSet.getDate(5);
-        type = AccountType.getEnum(resultSet.getInt(6));
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            accountId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        personId = resultSet.getInt(2 + startColumn);
+        username = resultSet.getString(3 + startColumn);
+        ssnSin = resultSet.getString(4 + startColumn);
+        creationDate = resultSet.getDate(5 + startColumn);
+        type = AccountType.getEnum(resultSet.getInt(6 + startColumn));
     }
 
     @Override

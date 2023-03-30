@@ -1,8 +1,11 @@
 package Databases;
 
+import Entities.Account;
 import Entities.AccountCredential;
+import Entities.Person;
 import Utilities.AccessResult;
 import Utilities.PasswordHasher;
+import Utilities.Pair;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +27,7 @@ public class AccountAccessor extends DatabaseAccessor{
             // If there's a result, read it.
             if(resultSet.next()) {
                 AccountCredential acc = new AccountCredential();
-                acc.ReadFromResultSet(resultSet);
+                acc.ReadFromResultSet(resultSet, 1, false);
                 return new AccessResult(true, acc);
             }
 
@@ -42,7 +45,53 @@ public class AccountAccessor extends DatabaseAccessor{
             return false;
         }
 
-        // If the credid. are presents, check if the username + password + salt hashes are the same as the database hash.
+        // If the credentials are presents, check if the username + password + salt hashes are the same as the database hash.
         return PasswordHasher.checkHash(acc.getHash(), username, password, acc.getSalt());
+    }
+
+    public int getAccountIdFromUsername (String username) {
+        AccessResult result = tryReturnStatement((conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement("select account_id from Account where username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            // If there's a result, read it.
+            if(resultSet.next()) {
+                return new AccessResult(true, resultSet.getInt(1));
+            } else {
+                return AccessResult.failed();
+            }
+        });
+
+        if(result.didSucceed()) {
+            return (int)result.getResult();
+        } else {
+            return 0;
+        }
+    }
+
+    public Pair<Account, Person> getAccountPersonPair (int accountId) {
+        AccessResult result = tryReturnStatement((conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Account NATURAL JOIN Person WHERE account_id = ?");
+            statement.setInt(1, accountId);
+            ResultSet resultSet = statement.executeQuery();
+
+            // If there's a result, read it.
+            if(resultSet.next()) {
+                Account account = new Account();
+                Person person = new Person();
+
+                // In this case, to read the result, we need to read the account first, then person with an startColumn of 9 and index disabled
+                account.ReadFromResultSet(resultSet, 1, false);
+                person.ReadFromResultSet(resultSet, 9, true);
+
+                return new AccessResult(true, new Pair<Account, Person>(account, person));
+            } else {
+                return AccessResult.failed();
+            }
+        });
+        return (Pair<Account, Person>) result.getResult();
     }
 }

@@ -29,16 +29,21 @@ public class Hotel implements ISQLReadable {
     public Hotel () {}
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        hotelId = resultSet.getInt(1);
-        chainId = resultSet.getInt(2);
-        managerId = resultSet.getInt(3);
-        address = Address.parseSQLAddress(resultSet.getString(4));
-        area = resultSet.getString(5);
-        phone = resultSet.getString(6);
-        rating = resultSet.getDouble(7);
-        roomCount = resultSet.getInt(8);
-        category = HotelType.getEnum(resultSet.getInt(9));
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            hotelId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        chainId = resultSet.getInt(2 + startColumn);
+        managerId = resultSet.getInt(3 + startColumn);
+        address = Address.parseSQLAddress(resultSet.getString(4 + startColumn));
+        area = resultSet.getString(5 + startColumn);
+        phone = resultSet.getString(6 + startColumn);
+        rating = resultSet.getDouble(7 + startColumn);
+        roomCount = resultSet.getInt(8 + startColumn);
+        category = HotelType.getEnum(resultSet.getInt(9 + startColumn));
     }
 
     @Override

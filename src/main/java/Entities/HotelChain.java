@@ -22,12 +22,17 @@ public class HotelChain implements ISQLReadable {
     public HotelChain () {}
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        chainId = resultSet.getInt(1);
-        chainName = resultSet.getString(2);
-        addressCentralOffice = Address.parseSQLAddress(resultSet.getString(3));
-        email = resultSet.getString(4);
-        phone = resultSet.getString(5);
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            chainId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        chainName = resultSet.getString(2 + startColumn);
+        addressCentralOffice = Address.parseSQLAddress(resultSet.getString(3 + startColumn));
+        email = resultSet.getString(4 + startColumn);
+        phone = resultSet.getString(5 + startColumn);
     }
 
     @Override

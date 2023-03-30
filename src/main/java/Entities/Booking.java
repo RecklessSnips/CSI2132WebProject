@@ -38,12 +38,17 @@ public class Booking implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLD
             "DELETE FROM Booking WHERE bookingId = ?;";
 
     @Override
-    public void ReadFromResultSet(ResultSet resultSet) throws SQLException {
-        bookingId = resultSet.getInt(1);
-        roomId = resultSet.getInt(2);
-        personId = resultSet.getInt(3);
-        startDate = resultSet.getDate(4);
-        endDate = resultSet.getDate(5);
+    public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
+        if(!excludeId) {
+            startColumn--;
+            bookingId = resultSet.getInt(1 + startColumn);
+        } else {
+            startColumn-=2;
+        }
+        roomId = resultSet.getInt(2 + startColumn);
+        personId = resultSet.getInt(3 + startColumn);
+        startDate = resultSet.getDate(4 + startColumn);
+        endDate = resultSet.getDate(5 + startColumn);
     }
 
     @Override
