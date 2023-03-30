@@ -8,7 +8,7 @@
 <body>
   <div class="signup-form">
     <h2>Sign Up</h2>
-    <form>
+    <form action="register" method="post">
       <div class="form-group">
         <label for="first-name">First Name</label>
         <input type="text" id="first-name" name="first-name" required>
@@ -43,10 +43,12 @@
         <label for="address">Address</label>
         <input type="text" id="address" name="address" required>
       </div>
-      <button type="submit" onclick="location.href='search.jsp'">Sign Up</button>
+<%--      <button type="submit" onclick="location.href='search.jsp'">Sign Up</button>--%>
+      <button>Sign Up</button>
       
     </form>
-    <button onclick="location.href='index.jsp'">Already have an account?</button>
+<%-- It was index.jsp, but is better change to /CSI2132, change back if u like--%>
+    <button onclick="location.href='/CSI2132'">Already have an account?</button>
   </div>
 </body>
 
