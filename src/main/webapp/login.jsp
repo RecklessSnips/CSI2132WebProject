@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="container">
-    <form>
+    <form action="search.jsp" method="post">
       <h1>Login</h1>
       <div class="error">
         <p>Error message goes here</p>
