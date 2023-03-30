@@ -47,12 +47,11 @@ public class SignupServlet extends HttpServlet {
 
         AccountCredential accountCredential = new AccountCredential(0, username, password);
         Account account = new Account(0, username, SSN, AccountType.Client);
-        Address parsedAddress = Address.parseSQLAddress(address);
-        Person person = new Person(firstName, lastName, parsedAddress);
+//        Person person = new Person(firstName, lastName, address);
 
 
-        req.setAttribute("message", "Account created successfully.");
-        req.getRequestDispatcher("/profile.jsp").forward(req, resp);
+
+        req.getRequestDispatcher("/signup.jsp").forward(req, resp);
     }
 
     @Override
