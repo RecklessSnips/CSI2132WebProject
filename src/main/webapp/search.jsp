@@ -15,8 +15,6 @@
           <button type="submit" class="search-button">Search</button>
         </form>
         <div class="login-buttons">
-          <a href="login.jsp"><button class="login-btn">Login</button></a>
-          <a href="signup.jsp"><button class="signup-btn">Sign Up</button></a>
           <a href="profile.jsp"><button class="signup-btn">My Profile</button></a>
         </div>
       </div>
