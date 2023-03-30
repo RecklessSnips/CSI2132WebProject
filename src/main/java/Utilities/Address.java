@@ -16,6 +16,17 @@ public class Address {
     public String getRegion() { return region; }
     public String getCountry() { return country; }
 
+    public Address () {}
+    public Address(int streetNumber, String streetName, String unit, String city, String region, String country) {
+        isValid = true;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.unit = unit;
+        this.city = city;
+        this.region = region;
+        this.country = country;
+    }
+
     public static Address parseSQLAddress (String sqlAddress) {
         Address add = new Address();
 

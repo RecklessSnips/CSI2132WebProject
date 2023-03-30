@@ -94,4 +94,28 @@ public class AccountAccessor extends DatabaseAccessor{
         });
         return (Pair<Account, Person>) result.getResult();
     }
+
+    public int createNewAccount(Account account, Person person, AccountCredential accountCredential) {
+        AccessResult result = tryReturnStatement((conn) -> {
+            int personId = person.WriteFromStatement(conn);
+
+            if(personId == 0) return AccessResult.failed();
+
+            account.setPersonId(personId);
+            int accountId = account.WriteFromStatement(conn);
+
+            if(accountId == 0) return AccessResult.failed();
+
+            accountCredential.setAccountId(accountId);
+            accountCredential.UpdateFromStatement(conn);
+
+            return new AccessResult(true, accountId);
+        });
+
+        if(result.didSucceed()) {
+            return (int)result.getResult();
+        } else {
+            return 0;
+        }
+    }
 }

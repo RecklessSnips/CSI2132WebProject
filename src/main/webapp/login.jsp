@@ -24,7 +24,7 @@
     <div class="container">
     <form action="/login" method="post">
       <h1>Login</h1>
-      <% if (session.getAttribute("failedLogin") != null && (boolean)session.getAttribute("failedLogin")) {%>
+      <% if (request.getAttribute("failedLogin") != null && (boolean)request.getAttribute("failedLogin")) {%>
       <div class="error">
         <p>Either the username and/or password are invalid.</p>
       </div>

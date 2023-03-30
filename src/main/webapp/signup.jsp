@@ -7,8 +7,13 @@
 </head>
 <body>
   <div class="signup-form">
-    <h2>Sign Up</h2>
-    <form action="profile" onsubmit="return validateForm()">
+    <h1>Sign Up</h1>
+    <% if (request.getAttribute("failedSignup") != null && (boolean)request.getAttribute("failedSignup")) {%>
+      <div class="error">
+        <p>${errorMessage}</p>
+      </div>
+    <% } %>
+    <form action="/signup" method="post">
       <div class="form-group">
         <label for="first-name">First Name</label>
         <input type="text" id="first-name" name="first-name" required>
@@ -31,23 +36,23 @@
       </div>
       <div class="form-group">
         <label for="phone-number">Phone Number</label>
-        <input type="tel" id="phone-number" name="phone-number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-        <small>Format: 123-456-7890</small>
+        <input type="tel" id="phone-number" name="phone-number" required>
       </div>
       <div class="form-group">
-        <label for="ssn">SSN</label>
-        <input type="text" id="ssn" name="ssn" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" required>
-        <small>Format: 123-45-6789</small>
+        <label for="ssn">SSN-SIN</label>
+        <input type="text" id="ssn" name="ssn" pattern="([0-9]{3}-[0-9]{3}-[0-9]{3})|([0-9]{3}-[0-9]{2}-[0-9]{4})" required>
+        <small>Format: (SSN) 123-45-6789 or (SIN) 123-456-784 </small>
       </div>
       <div class="form-group">
         <label for="address">Address</label>
         <input type="text" id="address" name="address" required>
       </div>
-      <button type="submit">Sign Up</button>
-<%--      <button type="submit" onclick="location.href='search.jsp'">Sign Up</button>--%>
+      <div class="form-group">
+      <button class="submit" type="submit">Sign Up</button>
+      </div>
+      
     </form>
-    <button onclick="location.href='index.jsp'">Already have an account?</button>
-<%--    <button onclick="location.href='index.jsp'">Already have an account?</button>--%>
+    <button class="submit" onclick="location.href='/login'">Already have an account?</button>
   </div>
   <script type="text/javascript">
     function validateForm() {

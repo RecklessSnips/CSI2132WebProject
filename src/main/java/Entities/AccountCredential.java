@@ -14,13 +14,13 @@ public class AccountCredential implements ISQLReadable, ISQLUpdatable {
     private String salt;
     private String hashedSaltPassword;
 
+    public void setAccountId (int accountId){ this.accountId = accountId;}
     public String getSalt() {return salt;}
     public String getHash() {return hashedSaltPassword;}
 
     public AccountCredential() {}
-    public AccountCredential(int accountId, String username, String password) {
+    public AccountCredential(String username, String password) {
         salt = PasswordHasher.generateSalt();
-        this.accountId = accountId;
         hashedSaltPassword = PasswordHasher.hash(username, password, salt);
     }
 

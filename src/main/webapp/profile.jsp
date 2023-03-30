@@ -9,21 +9,20 @@
 <body>
     <%
         Pair<Account, Person> accPair = (Pair<Account, Person>)request.getAttribute("accountPersonPair");
-        String firstName = accPair.getSecond().getFirstName();
     %>
     <div class="title">
         User Profile
     </div>
+    <%if(accPair != null) {%>
 	<div class="container">
 		<h2>Personal Infomation</h2>
         <table>
             <thead>
-
             </thead>
             <tbody>
                 <tr>
                     <th>First Name</th>
-                    <th><%=firstName%></th>
+                    <th><%=accPair.getSecond().getFirstName()%></th>
                     <th><button class="edit-personal-info-button">Edit</button></th>
                 </tr>
                 <tr>

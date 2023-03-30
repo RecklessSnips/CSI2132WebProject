@@ -14,6 +14,7 @@ public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
     private Date creationDate;
     private AccountType type;
 
+    public void setPersonId (int personId) { this.personId = personId;}
     public int getAccountId() { return accountId; }
     public int getPersonId() { return personId; }
     public String getUsername() { return username; }
@@ -21,8 +22,10 @@ public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
     public Date getCreationDate() { return creationDate; }
 
     public Account () {}
-    public Account (int personId, String username, String ssnSin, AccountType type) {
-        this.personId = personId;
+    public Account (String username, String ssnSin, AccountType type) {
+        this.username = username;
+        this.ssnSin = ssnSin;
+        this.type = type;
     }
 
     public final String insertQuery =
