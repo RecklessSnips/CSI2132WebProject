@@ -12,9 +12,8 @@ public class Room implements ISQLReadable {
     private double pricePerNight;
     private int roomCapacity;
     private int extensionCapacity;
-    private int tags;  // TODO: This will get changed later into something else, not sure what yet
+    private int tags;
     private String notes;
-    private Hotel hotel; // TODO: Figure out how to load
 
     public int getRoomId() { return roomId; }
     public int getRoomNumber() { return roomNumber; }
@@ -50,7 +49,6 @@ public class Room implements ISQLReadable {
                 ", extensionCapacity=" + extensionCapacity +
                 ", tags=" + tags +
                 ", notes='" + notes + '\'' +
-                ", hotel=" + hotel +
                 '}';
     }
 }

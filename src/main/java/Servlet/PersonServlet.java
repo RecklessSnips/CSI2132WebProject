@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-//@WebServlet(urlPatterns = "/loginn")
+//@WebServlet(urlPatterns = "/login")
 public class PersonServlet extends HttpServlet {
 
     Database db;
