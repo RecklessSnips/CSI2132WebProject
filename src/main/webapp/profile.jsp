@@ -151,7 +151,7 @@
 			</tbody>
             
 		</table>
-        <button class="back-button" onclick="history.back()">Back</button>
+        <button class="back-button" onclick="location.href='search.jsp'">Back</button>
 	</div>
 </body>
 </html>

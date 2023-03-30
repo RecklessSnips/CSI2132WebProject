@@ -84,8 +84,8 @@
 		</table>
 		<p>Thank you for choosing our hotel. We look forward to your stay.</p>
 		<div>
-			<button class="btn" onclick="">Back</button>
-			<button class="btn" onclick="">Confirm</button>
+			<button class="btn" onclick="location.href='search.jsp'">Back</button>
+			<button class="btn" onclick="location.href='search.jsp'">Confirm</button>
 		</div>
 	</div>
 </body>

@@ -43,12 +43,12 @@
         <label for="address">Address</label>
         <input type="text" id="address" name="address" required>
       </div>
-      <button type="submit">Sign Up</button>
+      <button type="submit" onclick="location.href='search.jsp'">Sign Up</button>
       
     </form>
-    <a href="login.html">Already have an account?</a>
+    <a href="login.jsp">Already have an account?</a>
   </div>
-  <button class="back-button" onclick="history.back()">Back</button>
+  <a href="search.jsp"><button class="back-button" onclick="history.back()">Back</button></a>
 </body>
 
 </html>
