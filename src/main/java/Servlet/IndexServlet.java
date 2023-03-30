@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 
-@WebServlet(urlPatterns = "/search.jsp")
+//@WebServlet(urlPatterns = "/search.jsp")
 public class IndexServlet extends HttpServlet {
 
     @Override
