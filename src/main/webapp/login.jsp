@@ -19,7 +19,7 @@
       <button type="submit" class="login-button">Login</button>
       
     </form>
-    <button class="back-button" onclick="location.href='search.jsp'">Back</button>
+    <button class="back-button" onclick="location.href='index.jsp'">Back</button>
   </div>
   </body>
 </html>

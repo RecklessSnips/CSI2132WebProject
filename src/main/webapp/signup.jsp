@@ -48,7 +48,7 @@
     </form>
     <a href="login.jsp">Already have an account?</a>
   </div>
-  <a href="search.jsp"><button class="back-button" onclick="history.back()">Back</button></a>
+  <button class="back-button" onclick="location.href='index.jsp'">Back</button>
 </body>
 
 </html>

@@ -3,79 +3,7 @@
 <html>
 <head>
 	<title>User Profile</title>
-	<style>
-		body {
-            margin: 0;
-			font-family: Arial, sans-serif;
-			background-color: #f2f2f2;
-		}
-		.container {
-			margin: 0 auto;
-			max-width: 800px;
-			padding: 20px;
-		}
-		.title {
-			text-align: center;
-			padding: 20px;
-            background-color: #0b6ed1;
-            font-family: Arial, sans-serif;
-            color: white;
-            font-size: 32px;
-		}
-        
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 20px;
-		}
-		th, td {
-			padding: 8px;
-			text-align: left;
-			border-bottom: 1px solid #ddd;
-		}
-		th {
-			background-color: #f2f2f2;
-		}
-		tr:hover {
-			background-color: #f5f5f5;
-		}
-        .remove-button {
-			background-color: #0b6ed1;
-			color: white;
-			border: none;
-			padding: 5px 10px;
-			border-radius: 3px;
-			cursor: pointer;
-		}
-        .back-button {
-			background-color: #0b6ed1;
-			color: white;
-			border: none;
-			padding: 5px 10px;
-			border-radius: 3px;
-			cursor: pointer;
-			position: absolute;
-			bottom: 20px;
-			left: 20px;
-		}
-        .edit-personal-info-button{
-            background-color: #0b6ed1;
-			color: white;
-			border: none;
-			padding: 5px 10px;
-			border-radius: 3px;
-			cursor: pointer;
-        }
-        .delete-profile-button{
-            background-color: #c33434;
-			color: white;
-			border: none;
-			padding: 5px 10px;
-			border-radius: 3px;
-			cursor: pointer;
-            margin: 1rem 0;
-        }
-	</style>
+	<link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
     <div class="title">
@@ -151,7 +79,7 @@
 			</tbody>
             
 		</table>
-        <button class="back-button" onclick="location.href='search.jsp'">Back</button>
+        <button class="back-button" onclick="location.href='index.jsp'">Back</button>
 	</div>
 </body>
 </html>
