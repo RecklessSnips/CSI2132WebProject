@@ -47,6 +47,7 @@ public class ProfileServlet extends HttpServlet {
             System.out.println("Could not load profile");
         }
 
+        req.setAttribute("accountPersonPair", accPair);
         req.getRequestDispatcher("/profile.jsp").forward(req, resp);
     }
 

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="Utilities.*, Entities.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,10 @@
 	<link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
+    <%
+        Pair<Account, Person> accPair = (Pair<Account, Person>)request.getAttribute("accountPersonPair");
+        String firstName = accPair.getSecond().getFirstName();
+    %>
     <div class="title">
         User Profile
     </div>
@@ -18,7 +23,7 @@
             <tbody>
                 <tr>
                     <th>First Name</th>
-                    <th>Will</th>
+                    <th><%=firstName%></th>
                     <th><button class="edit-personal-info-button">Edit</button></th>
                 </tr>
                 <tr>

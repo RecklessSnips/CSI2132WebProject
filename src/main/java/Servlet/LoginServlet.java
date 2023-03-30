@@ -54,11 +54,13 @@ public class LoginServlet extends HttpServlet {
             String encodedURL = resp.encodeRedirectURL("/");
 
             req.getSession().setAttribute("failedLogin", false);
+            req.getSession().setAttribute("isLoggedIn", true);
             resp.sendRedirect(encodedURL);
         }
         else
         {
             req.getSession().setAttribute("failedLogin", true);
+            req.getSession().setAttribute("isLoggedIn", false);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
             rd.forward(req, resp);
         }

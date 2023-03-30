@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
+    <%
+    Object loggedInObject = request.getSession().getAttribute("isLoggedIn");
+    boolean isLoggedIn = loggedInObject != null && (boolean)loggedInObject == true;
+    %>
     <header>
       <div class="container">
         <h1>Hotel Search Page</h1>
@@ -14,9 +18,12 @@
           <button type="submit" class="search-button">Search</button>
         </form>
         <div class="login-buttons">
+          <% if(!isLoggedIn) {%>
           <a href="login"><button class="login">Login</button></a>
           <a href="signup"><button class="signup">Sign Up</button></a>
+          <%} else {%>
           <a href="profile"><button class="signup">My Profile</button></a>
+          <%}%>
         </div>
       </div>
 
