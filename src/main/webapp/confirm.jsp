@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
+<%@ page import="Entities.Room" %>
+<%@ page import="Entities.Hotel" %>
+<%@ page import="Entities.HotelChain" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +21,9 @@
 		username = (String)session.getAttribute("username");
 	}
 
-	Hotel hotel = request.getAttribute("hotel");
-	Room hotel = request.getAttribute("room");
+	Hotel hotel = (Hotel) request.getAttribute("hotel");
+	Room room = (Room) request.getAttribute("room");
+	HotelChain hotelChain = (HotelChain) request.getAttribute("hotelChain");
 
 %>
 	<div class="container">
@@ -27,32 +31,32 @@
 		<table>
             <tr>
 				<th>Address:</th>
-				<td>123 Database Street</td>
+				<td><%=hotel.getAddress().toString()%></td>
 			</tr>
 			<tr>
 				<th>Room Capacity:</th>
-				<td>2 adults, 1 child</td>
+				<td><%=room.getRoomCapacity()%></td>
 			</tr>
 			<tr>
 				<th>Area:</th>
-				<td>Downtown</td>
+				<td><%=hotel.getArea()%></td>
 			</tr>
 			<tr>
 				<th>Hotel Chain:</th>
-				<td>Marriott</td>
+				<td><%=hotelChain.getChainName() + " "%></td>
 			</tr>
 			<tr>
-				<th>Category:</th>
-				<td>4 stars</td>
+				<th>Rating:</th>
+				<td><%=hotel.getRating()+" stars"%></td>
 			</tr>
 			<tr>
 				<th>Price:</th>
-				<td>$150 per night</td>
+				<td><%=room.getPricePerNight() + "$ per night"%></td>
 			</tr>
 		</table>
 		 <div class="signup-form">
         		<form action="/confirm" method="post">
-                      <h1>Payment</h1>
+                      <%--@declare id="credit-card-num"--%><%--@declare id="exp-date"--%><%--@declare id="cvv"--%><h1>Payment</h1>
                       <% if (request.getAttribute("failedLogin") != null && (boolean)request.getAttribute("failedLogin")) {%>
                       <div class="error">
                         <p>Either the username and/or password are invalid.</p>
