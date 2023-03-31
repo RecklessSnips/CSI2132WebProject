@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,13 @@
 	</style>
 </head>
 <body>
+<%
+	String username = "";
+	session = request.getSession(false);
+	if (session != null) {
+		username = (String)session.getAttribute("username");
+	}
+%>
 	<div class="container">
 		<h1>Hotel Rental Confirmation</h1>
 		<table>
@@ -38,7 +46,7 @@
 				<td>$150 per night</td>
 			</tr>
 		</table>
-		<p>Thank you for choosing our hotel. We look forward to your stay.</p>
+		<p><% System.out.println(username + ", "); %>Thank you for choosing our hotel. We look forward to your stay.</p>
 		<div>
 			<button class="btn" onclick="location.href='search.jsp'">Back</button>
 			<button class="btn" onclick="location.href='search.jsp'">Confirm</button>
