@@ -64,6 +64,9 @@
         <form action="/logout" method="post">
             <th><button class="delete-profile-button" onclick="location.href='/search.jsp'">Log out</button></th>
         </form>
+        <form action="/employee" method="post">
+            <th><button class="delete-profile-button" onclick="location.href='/employeeBooking.jsp'">Employee Booking</button></th>
+        </form>
 		<h2>Hotel Bookings</h2>
 		<table>
 			<thead>

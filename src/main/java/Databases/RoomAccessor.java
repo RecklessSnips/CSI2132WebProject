@@ -31,14 +31,15 @@ public class RoomAccessor extends DatabaseAccessor {
             boolean areaEnabled,
             boolean roomCapacityEnabled,
             boolean chainEnabled,
-            boolean priceEnabled,
+            boolean priceMinEnabled,
+            boolean priceMaxEnabled,
             boolean timeEnabled,
             HotelType hotelType,
             String area,
             int roomCapacity,
             int chainId,
-            double pricePoint,
-            boolean isAbovePrice,
+            double priceMinPoint,
+            double priceMaxPoint,
             Date startDate,
             Date endDate) {
 
@@ -46,7 +47,8 @@ public class RoomAccessor extends DatabaseAccessor {
             (categoryEnabled ? 1 : 0) +
             (roomCapacityEnabled ? 1 : 0) +
             (chainEnabled ? 1 : 0) +
-            (priceEnabled ? 1 : 0) +
+            (priceMinEnabled ? 1 : 0) +
+                    (priceMaxEnabled ? 1 : 0)+
             (timeEnabled ? 1 : 0);
 
         StringBuilder queryBuilder = new StringBuilder();
@@ -72,15 +74,28 @@ public class RoomAccessor extends DatabaseAccessor {
                 queryBuilder.append("chain_id = ?");
                 conditionCount--;
             }
+//            if(conditionCount > 0) queryBuilder.append(" AND ");
+//            if(priceEnabled) {
+//                if(isAbovePrice) {
+//                    queryBuilder.append("price_per_night > ?");
+//                } else {
+//                    queryBuilder.append("price_per_night < ?");
+//                }
+//                conditionCount--;
+//            }
+
             if(conditionCount > 0) queryBuilder.append(" AND ");
-            if(priceEnabled) {
-                if(isAbovePrice) {
-                    queryBuilder.append("price_per_night > ?");
-                } else {
-                    queryBuilder.append("price_per_night < ?");
-                }
+            if(priceMinEnabled) {
+                queryBuilder.append("price_per_night >= ?");
                 conditionCount--;
             }
+
+            if(conditionCount > 0) queryBuilder.append(" AND ");
+            if(priceMaxEnabled) {
+                queryBuilder.append("price_per_night <= ?");
+                conditionCount--;
+            }
+
             if(conditionCount > 0) queryBuilder.append(" AND ");
             if(timeEnabled) {
                 queryBuilder.append("room_id NOT IN (SELECT room_id FROM Booking WHERE start_date < ? AND end_date > ?) ");
@@ -108,8 +123,12 @@ public class RoomAccessor extends DatabaseAccessor {
                 statement.setInt(index, chainId);
                 index++;
             }
-            if(priceEnabled) {
-                statement.setDouble(index, pricePoint);
+            if(priceMinEnabled) {
+                statement.setDouble(index, priceMinPoint);
+                index++;
+            }
+            if(priceMaxEnabled) {
+                statement.setDouble(index, priceMaxPoint);
                 index++;
             }
             if(timeEnabled) {

@@ -1,11 +1,13 @@
 package Databases;
 
-import Entities.BookingDisplay;
+import Entities.*;
 import Utilities.AccessResult;
 
+import java.awt.print.Book;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.Date;
 
 public class BookingAccessor extends DatabaseAccessor{
     public BookingAccessor(Database database) {
@@ -33,5 +35,23 @@ public class BookingAccessor extends DatabaseAccessor{
             return new AccessResult(true, bookings);
         });
         return (ArrayList<BookingDisplay>) result.getResult();
+    }
+
+
+    public int createNewBooking(Room room, Person person, Date start, Date end) {
+        AccessResult result = tryReturnStatement((conn) -> {
+
+            Booking booking = new Booking(room.getRoomId(), person.getPersonId(), start, end);
+
+            int bookingid = booking.WriteFromStatement(conn);
+
+            return new AccessResult(true, bookingid);
+        });
+
+        if(result.didSucceed()) {
+            return (int)result.getResult();
+        } else {
+            return 0;
+        }
     }
 }

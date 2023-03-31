@@ -45,3 +45,25 @@ th {
 .btn:hover {
 	background-color: #0062cc;
 }
+
+.signup-form {
+  width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+}
+
+ input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #555;
+    box-sizing: border-box;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #007bff;
+  }
