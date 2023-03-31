@@ -24,6 +24,10 @@ public class Hotel implements ISQLReadable {
     public double getRating() { return rating; }
     public HotelType getCategory() { return category; }
 
+    public String getArea() {
+        return area;
+    }
+
     public Hotel () {}
     public Hotel(int hotelId, int chainId, int managerId, Address address, String area, String phone, double rating, HotelType category) {
         this.hotelId = hotelId;
