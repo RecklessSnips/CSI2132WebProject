@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BookingDisplay implements ISQLReadable {
+    public int bookingId;
     public String chainName;
     public Address address;
     public Date startDate;
@@ -18,10 +19,11 @@ public class BookingDisplay implements ISQLReadable {
 
     @Override
     public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
-        chainName = resultSet.getString(1);
-        address = Address.parseSQLAddress(resultSet.getString(2));
-        startDate = resultSet.getDate(3);
-        endDate = resultSet.getDate(4);
-        roomCapacity = resultSet.getInt(5);
+        bookingId = resultSet.getInt(1);
+        chainName = resultSet.getString(2);
+        address = Address.parseSQLAddress(resultSet.getString(3));
+        startDate = resultSet.getDate(4);
+        endDate = resultSet.getDate(5);
+        roomCapacity = resultSet.getInt(6);
     }
 }

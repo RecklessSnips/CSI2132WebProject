@@ -125,6 +125,7 @@ public class SignupServlet extends HttpServlet {
                 HttpSession session = req.getSession();
                 session.setAttribute("username", username);
                 session.setAttribute("accountId", accountId);
+                session.setAttribute("personId", person.getPersonId());
                 session.setMaxInactiveInterval(30*60);
 
                 Cookie usernameCookie = new Cookie("username", username);

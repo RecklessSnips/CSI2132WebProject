@@ -86,6 +86,7 @@ public class AccountAccessor extends DatabaseAccessor{
                 // In this case, to read the result, we need to read the account first, then person with an startColumn of 9 and index disabled
                 account.ReadFromResultSet(resultSet, 1, false);
                 person.ReadFromResultSet(resultSet, 9, true);
+                person.setPersonId(account.getPersonId());
 
                 return new AccessResult(true, new Pair<Account, Person>(account, person));
             } else {

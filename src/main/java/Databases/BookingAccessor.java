@@ -21,7 +21,7 @@ public class BookingAccessor extends DatabaseAccessor{
             ArrayList<BookingDisplay> bookings = new ArrayList<>();
 
             PreparedStatement statement = conn.prepareStatement(
-                "SELECT chain_name, address, start_date, end_date, room_capacity FROM Booking NATURAL JOIN Room NATURAL JOIN Hotel NATURAL JOIN HotelChain WHERE person_id = ?;");
+                "SELECT booking_id, chain_name, address, start_date, end_date, room_capacity FROM Booking NATURAL JOIN Room NATURAL JOIN Hotel NATURAL JOIN HotelChain WHERE person_id = ?;");
             statement.setInt(1, personId);
             ResultSet results = statement.executeQuery();
 
@@ -33,5 +33,14 @@ public class BookingAccessor extends DatabaseAccessor{
             return new AccessResult(true, bookings);
         });
         return (ArrayList<BookingDisplay>) result.getResult();
+    }
+
+    public void deleteBookingIfBelongsToPersonId (int personId, int bookingId) {
+        tryRunStatement((conn) -> {
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM Booking WHERE person_id = ? AND booking_id = ?;");
+            statement.setInt(1, personId);
+            statement.setInt(2, bookingId);
+            return statement.executeQuery().next();
+        });
     }
 }

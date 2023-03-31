@@ -13,6 +13,7 @@ public class Person implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLDe
     private String lastName;
     private Address address;
 
+    public void setPersonId(int personId) { this.personId = personId; }
     public int getPersonId() { return personId; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
