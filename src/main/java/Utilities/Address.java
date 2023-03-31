@@ -61,7 +61,7 @@ public class Address {
     }
 
     public String toString () {
-        String address = streetName.toString() + " " + streetName + ", ";
+        String address = streetNumber + " " + streetName + ", ";
         if(unit != null) {
             address += unit + ", ";
         }

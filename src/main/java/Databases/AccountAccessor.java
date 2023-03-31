@@ -98,12 +98,10 @@ public class AccountAccessor extends DatabaseAccessor{
     public int createNewAccount(Account account, Person person, AccountCredential accountCredential) {
         AccessResult result = tryReturnStatement((conn) -> {
             int personId = person.WriteFromStatement(conn);
-
             if(personId == 0) return AccessResult.failed();
 
             account.setPersonId(personId);
             int accountId = account.WriteFromStatement(conn);
-
             if(accountId == 0) return AccessResult.failed();
 
             accountCredential.setAccountId(accountId);

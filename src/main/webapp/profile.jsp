@@ -8,7 +8,13 @@
 </head>
 <body>
     <%
+        boolean allowedToEdit = false;
         Pair<Account, Person> accPair = (Pair<Account, Person>)request.getAttribute("accountPersonPair");
+        String[] split = accPair.getFirst().getSsnSin().split("-");
+        String censoredSsnSin =
+        "*".repeat(split[0].length()) + "-" +
+        "*".repeat(split[1].length()) + "-" +
+        split[2];
     %>
     <div class="title">
         User Profile
@@ -23,27 +29,36 @@
                 <tr>
                     <th>First Name</th>
                     <th><%=accPair.getSecond().getFirstName()%></th>
-                    <th><button class="edit-personal-info-button">Edit</button></th>
+                    <%if(allowedToEdit) {%>
+                        <th><button class="edit-personal-info-button">Edit</button></th>
+                    <%}%>
                 </tr>
                 <tr>
                     <th>Last Name</th>
-                    <th>Smith</th>
-                    <th><button class="edit-personal-info-button">Edit</button></th>
+                    <th><%=accPair.getSecond().getLastName()%></th>
+                    <%if(allowedToEdit) {%>
+                        <th><button class="edit-personal-info-button">Edit</button></th>
+                    <%}%>
                 </tr>
                 <tr>
                     <th>Address</th>
-                    <th>1161 Indiana Avenue, Wahiawa, HI, USA</th>
-                    <th><button class="edit-personal-info-button">Edit</button></th>
+                    <th><%=accPair.getSecond().getAddress().toString()%></th>
+                    <%if(allowedToEdit) {%>
+                        <th><button class="edit-personal-info-button">Edit</button></th>
+                    <%}%>
                 </tr>
                 <tr>
-                    <th>SSN/SIN</th>
-                    <th>***-***-234</th>
-                    <th><button class="edit-personal-info-button">Edit</button></th>
+                    <th>SSN-SIN</th>
+                    <th><%=censoredSsnSin%></th>
+                    <%if(allowedToEdit) {%>
+                        <th><button class="edit-personal-info-button">Edit</button></th>
+                    <%}%>
                 </tr>
             </tbody>
             
         </table>
-        <th><button class="delete-profile-button">Delete Profile</button></th>
+        <th><button class="delete-profile-button">Delete Account (NOT IMPLEMENTED YET)</button></th>
+        <th><button class="delete-profile-button" onclick="location.href='/logout'">Log out</button></th>
 		<h2>Hotel Bookings</h2>
 		<table>
 			<thead>
@@ -83,7 +98,8 @@
 			</tbody>
             
 		</table>
-        <button class="back-button" onclick="location.href='index.jsp'">Back</button>
+        <button class="back-button" onclick="location.href='/'">Back</button>
 	</div>
+	<%}%>
 </body>
 </html>
