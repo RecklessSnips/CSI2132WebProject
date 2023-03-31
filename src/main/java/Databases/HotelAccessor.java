@@ -15,13 +15,13 @@ public class HotelAccessor extends DatabaseAccessor {
 
     public HotelChain getHotelChainFromId (int hotelChainId) {
         AccessResult acc = tryReturnStatement((conn) -> {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM HotelChain WHERE hotelChainId = ?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM HotelChain WHERE chain_id = ?");
             statement.setInt(1, hotelChainId);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()) {
-                Room room = new Room();
-                room.ReadFromResultSet(resultSet, 1, true);
-                return new AccessResult(true, room);
+                HotelChain hotelChain = new HotelChain();
+                hotelChain.ReadFromResultSet(resultSet, 1, false);
+                return new AccessResult(true, hotelChain);
             }
             return AccessResult.failed();
         });
@@ -30,13 +30,13 @@ public class HotelAccessor extends DatabaseAccessor {
 
     public Hotel getHotelFromId (int hotelId) {
         AccessResult acc = tryReturnStatement((conn) -> {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Hotel WHERE hotelId = ?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Hotel WHERE hotel_id = ?");
             statement.setInt(1, hotelId);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()) {
-                Room room = new Room();
-                room.ReadFromResultSet(resultSet, 1, true);
-                return new AccessResult(true, room);
+                Hotel hotel = new Hotel();
+                hotel.ReadFromResultSet(resultSet, 1, false);
+                return new AccessResult(true, hotel);
             }
             return AccessResult.failed();
         });

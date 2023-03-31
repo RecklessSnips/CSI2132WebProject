@@ -148,7 +148,7 @@ public class RoomAccessor extends DatabaseAccessor {
                     results.getDouble(4),
                     results.getInt(5),
                     results.getInt(6),
-                    Integer.parseInt(results.getString(7).replace('X', '1'), 2),
+                    Integer.parseInt(results.getString(7).replace('X', '1').trim(), 2),
                     results.getString(8));
                 Hotel hotel = new Hotel(
                     results.getInt(1),
@@ -171,16 +171,16 @@ public class RoomAccessor extends DatabaseAccessor {
 
     public Room getRoomFromId (int roomId) {
         AccessResult acc = tryReturnStatement((conn) -> {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Room WHERE roomId = ?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Room WHERE room_id = ?");
             statement.setInt(1, roomId);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()) {
                 Room room = new Room();
-                room.ReadFromResultSet(resultSet, 1, true);
+                room.ReadFromResultSet(resultSet, 1, false);
                 return new AccessResult(true, room);
             }
             return AccessResult.failed();
         });
-        return acc.getResult();
+        return (Room)acc.getResult();
     }
 }

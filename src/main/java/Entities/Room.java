@@ -48,7 +48,7 @@ public class Room implements ISQLReadable {
         pricePerNight = resultSet.getDouble(4 + startColumn);
         roomCapacity = resultSet.getInt(5 + startColumn);
         extensionCapacity = resultSet.getInt(6 + startColumn);
-        tags = Integer.parseInt(resultSet.getString(7 + startColumn).replace('X', '1'),2);
+        tags = Integer.parseInt(resultSet.getString(7 + startColumn).replace('X', '1').trim(),2);
         notes = resultSet.getString(8 + startColumn);
     }
 
