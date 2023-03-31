@@ -14,7 +14,6 @@ public class Hotel implements ISQLReadable {
     private String area;
     private String phone;
     private double rating;
-    private int roomCount;
     private HotelType category;
 
     public int getHotelId() { return hotelId;}
@@ -23,10 +22,19 @@ public class Hotel implements ISQLReadable {
     public Address getAddress() { return address; }
     public String getPhone() { return phone; }
     public double getRating() { return rating; }
-    public int getRoomCount() { return roomCount; }
     public HotelType getCategory() { return category; }
 
     public Hotel () {}
+    public Hotel(int hotelId, int chainId, int managerId, Address address, String area, String phone, double rating, HotelType category) {
+        this.hotelId = hotelId;
+        this.chainId = chainId;
+        this.managerId = managerId;
+        this.address = address;
+        this.area = area;
+        this.phone = phone;
+        this.rating = rating;
+        this.category = category;
+    }
 
     @Override
     public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
@@ -42,8 +50,7 @@ public class Hotel implements ISQLReadable {
         area = resultSet.getString(5 + startColumn);
         phone = resultSet.getString(6 + startColumn);
         rating = resultSet.getDouble(7 + startColumn);
-        roomCount = resultSet.getInt(8 + startColumn);
-        category = HotelType.getEnum(resultSet.getInt(9 + startColumn));
+        category = HotelType.getEnum(resultSet.getInt(8 + startColumn));
     }
 
     @Override
@@ -56,7 +63,6 @@ public class Hotel implements ISQLReadable {
                 ", area='" + area + '\'' +
                 ", phone='" + phone + '\'' +
                 ", rating='" + rating + '\'' +
-                ", room_count=" + roomCount +
                 '}';
     }
 }

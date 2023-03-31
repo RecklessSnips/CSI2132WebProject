@@ -10,16 +10,19 @@
     <%
         boolean allowedToEdit = false;
         Pair<Account, Person> accPair = (Pair<Account, Person>)request.getAttribute("accountPersonPair");
+    %>
+    <div class="title">
+        User Profile
+    </div>
+    <%if(accPair != null) {
+
         String[] split = accPair.getFirst().getSsnSin().split("-");
         String censoredSsnSin =
         "*".repeat(split[0].length()) + "-" +
         "*".repeat(split[1].length()) + "-" +
         split[2];
+
     %>
-    <div class="title">
-        User Profile
-    </div>
-    <%if(accPair != null) {%>
 	<div class="container">
 		<h2>Personal Infomation</h2>
         <table>
@@ -63,11 +66,12 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Hotel Name</th>
+					<th>Hotel Chain Name</th>
+					<th>Address</th>
 					<th>Check-in Date</th>
 					<th>Check-out Date</th>
 					<th>Number of Guests</th>
-					<th>Room Type</th>
+					<th>Room Size</th>
 				</tr>
 			</thead>
 			<tbody>

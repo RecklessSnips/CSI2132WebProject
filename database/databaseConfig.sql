@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS EmployeeAccount CASCADE;
 DROP TABLE IF EXISTS Booking CASCADE;
 DROP TABLE IF EXISTS Renting CASCADE;
 DROP FUNCTION IF EXISTS archiveRoom;
+DROP TRIGGER IF EXISTS copy_booking_to_renting_trigger ON Renting;
 
 -- Basis for all persons
 CREATE TABLE Person (
@@ -47,7 +48,7 @@ CREATE TABLE HotelChain(
 	chain_name VARCHAR(64) NOT NULL,
 	address_central_office VARCHAR(256) NOT NULL,
 	email VARCHAR(128) NOT NULL,
-	phone VARCHAR(128) NOT NULL
+	chain_phone VARCHAR(128) NOT NULL
 );
 
 -- Depends on hotel chain, will get deleted if that one gets deleted too.
@@ -57,12 +58,10 @@ CREATE TABLE Hotel(
 	manager_id INT, -- We were told to make this not null but what happens to hotel once manager is deleted?
 	address VARCHAR(256) NOT NULL,
 	area VARCHAR(128) NOT NULL,
-	phone VARCHAR(128) NOT NULL,
+	hotel_phone VARCHAR(128) NOT NULL,
 	rating NUMERIC(2,1) NOT NULL,
-	room_count INT NOT NULL,
 	category INT NOT NULL,
 	
-	CHECK(room_count >= 0),
 	CHECK(rating >= 0 AND rating <= 5),
 	CONSTRAINT fk_chain_id
 		FOREIGN KEY(chain_id) 
@@ -188,7 +187,7 @@ CREATE INDEX booking_room_index ON Booking(room_id);
 
 
 -- This is our playground
-INSERT INTO HotelChain(chain_name, address_central_office, email, phone)
+INSERT INTO HotelChain(chain_name, address_central_office, email, chain_phone)
 VALUES
 ('Confort Inn', '4348 Bank St, ON, Ottawa, Canada', 'contact@confortinn.ca', '613-555-5555'),
 ('Blue Hotel', '2507 Montreal Road, ON, Ottawa, Canada', 'contact@bluehotel.ca', '613-333-3333'),
@@ -214,48 +213,48 @@ VALUES
 (5, 1, 'Mama', '263-134-066', NOW(), 'gD5YJ9brZ4qRjQ3w', '3b189ab7034b331b4a96ee8f279514c056706b9cdbddb09b6ffb7b667a03e128'), --onemillion=1000000
 (6, 1, 'st__angl', '925-092-975', NOW(), 'mYRNkTwO2cDCdBME', 'ff10074d83e75702cffa3adc6270604f8232f122786e4cbec222bbae5dad96e9'); --davisbigPASSWORD5
 
-INSERT INTO Hotel(chain_id, manager_id, category, address, area, phone, rating, room_count)
+INSERT INTO Hotel(chain_id, manager_id, category, address, area, hotel_phone, rating)
 VALUES
-(1, 3, 0, '123 Main St, ON, Ottawa, Canada', 'Ottawa', '613-111-1111', 3.5, 15),
-(1, 4, 1, '456 Queen St, ON, Ottawa, Canada', 'Ottawa', '613-111-1112', 4.0, 10),
-(1, 5, 1, '789 King St, ON, Ottawa, Canada', 'Ottawa', '613-111-1113', 4.5, 12),
-(1, 6, 2, '100 Elgin St, ON, Ottawa, Canada', 'Ottawa', '613-111-1114', 3.0, 20),
-(1, 4, 2, '200 Rideau St, ON, Ottawa, Canada', 'Ottawa', '613-111-1115', 2.5, 25),
-(1, 5, 3, '300 Sparks St, ON, Ottawa, Canada', 'Ottawa', '613-111-1116', 3.0, 18),
-(1, 6, 3, '400 Laurier Ave, ON, Ottawa, Canada', 'Ottawa', '613-111-1117', 4.5, 16),
-(1, 3, 4, '500 Sussex Dr, ON, Ottawa, Canada', 'Ottawa', '613-111-1118', 5.0, 8),
-(2, 5, 0, '100 Rue St-Jacques, QC, Montreal, Canada', 'Montreal', '514-222-2221', 3.0, 15),
-(2, 5, 1, '200 Rue St-Antoine, QC, Montreal, Canada', 'Montreal', '514-222-2222', 4.5, 12),
-(2, 6, 1, '300 Rue Peel, QC, Montreal, Canada', 'Montreal', '514-222-2223', 4.0, 20),
-(2, 6, 2, '400 Blvd Rene-Levesque, QC, Montreal, Canada', 'Montreal', '514-222-2224', 3.5, 18),
-(2, 3, 2, '500 Rue Sherbrooke O, QC, Montreal, Canada', 'Montreal', '514-222-2225', 2.5, 25),
-(2, 3, 3, '600 Rue St-Denis, QC, Montreal, Canada', 'Montreal', '514-222-2226', 3.0, 16),
-(2, 3, 3, '700 Rue Guy, QC, Montreal, Canada', 'Montreal', '514-222-2227', 4.5, 10),
-(2, 4, 4, '800 Rue University, QC, Montreal, Canada', 'Montreal', '514-222-2228', 5.0, 8),
-(3, 4, 1, '303 Madison Ave, NY, New York, USA', 'New York', '+1-212-333-3332', 4.5, 18),
-(3, 5, 2, '404 Park Ave, NY, New York, USA', 'New York', '+1-212-333-3333', 3.0, 25),
-(3, 5, 2, '505 Lexington Ave, NY, New York, USA', 'New York', '+1-212-333-3334', 2.5, 20),
-(3, 6, 3, '606 7th Ave, NY, New York, USA', 'New York', '+1-212-333-3335', 3.5, 15),
-(3, 6, 3, '707 8th Ave, NY, New York, USA', 'New York', '+1-212-333-3336', 4.0, 16),
-(3, 3, 4, '808 Broadway, NY, New York, USA', 'New York', '+1-212-333-3337', 4.5, 12),
-(3, 4, 4, '909 5th Ave, NY, New York, USA', 'New York', '+1-212-333-3338', 5.0, 10),
-(3, 5, 4, '1010 Park Ave, NY, New York, USA', 'New York', '+1-212-333-3339', 4.0, 8),
-(4, 6, 0, '123 Main St, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5552', 2.5, 50),
-(4, 3, 1, '456 Vine St, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5553', 3.0, 40),
-(4, 4, 1, '789 Hollywood Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5554', 3.5, 35),
-(4, 5, 2, '1010 Wilshire Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5555', 4.0, 30),
-(4, 6, 2, '1212 Sunset Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5556', 4.5, 25),
-(4, 3, 3, '1414 Melrose Ave, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5557', 4.0, 20),
-(4, 4, 3, '1616 La Brea Ave, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5558', 4.5, 15),
-(4, 5, 4, '1818 Santa Monica Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5559', 5.0, 10),
-(5, 6, 0, '100 Main St, NY, New York, USA', 'New York', '+1-212-555-5552', 2.5, 50),
-(5, 3, 1, '200 Broadway, NY, New York, USA', 'New York', '+1-212-555-5553', 3.0, 40),
-(5, 4, 1, '300 5th Ave, NY, New York, USA', 'New York', '+1-212-555-5554', 3.5, 35),
-(5, 5, 2, '400 Park Ave, NY, New York, USA', 'New York', '+1-212-555-5555', 4.0, 30),
-(5, 6, 2, '500 Madison Ave, NY, New York, USA', 'New York', '+1-212-555-5556', 4.5, 25),
-(5, 3, 3, '600 Lexington Ave, NY, New York, USA', 'New York', '+1-212-555-5557', 4.0, 20),
-(5, 4, 3, '700 8th Ave, NY, New York, USA', 'New York', '+1-212-555-5558', 4.5, 15),
-(5, 5, 4, '800 7th Ave, NY, New York, USA', 'New York', '+1-212-555-5559', 5.0, 10);
+(1, 3, 0, '123 Main St, ON, Ottawa, Canada', 'Ottawa', '613-111-1111', 3.5),
+(1, 4, 1, '456 Queen St, ON, Ottawa, Canada', 'Ottawa', '613-111-1112', 4.0),
+(1, 5, 1, '789 King St, ON, Ottawa, Canada', 'Ottawa', '613-111-1113', 4.5),
+(1, 6, 2, '100 Elgin St, ON, Ottawa, Canada', 'Ottawa', '613-111-1114', 3.0),
+(1, 4, 2, '200 Rideau St, ON, Ottawa, Canada', 'Ottawa', '613-111-1115', 2.5),
+(1, 5, 3, '300 Sparks St, ON, Ottawa, Canada', 'Ottawa', '613-111-1116', 3.0),
+(1, 6, 3, '400 Laurier Ave, ON, Ottawa, Canada', 'Ottawa', '613-111-1117', 4.5),
+(1, 3, 4, '500 Sussex Dr, ON, Ottawa, Canada', 'Ottawa', '613-111-1118', 5.0),
+(2, 5, 0, '100 Rue St-Jacques, QC, Montreal, Canada', 'Montreal', '514-222-2221', 3.0),
+(2, 5, 1, '200 Rue St-Antoine, QC, Montreal, Canada', 'Montreal', '514-222-2222', 4.5),
+(2, 6, 1, '300 Rue Peel, QC, Montreal, Canada', 'Montreal', '514-222-2223', 4.0),
+(2, 6, 2, '400 Blvd Rene-Levesque, QC, Montreal, Canada', 'Montreal', '514-222-2224', 3.5),
+(2, 3, 2, '500 Rue Sherbrooke O, QC, Montreal, Canada', 'Montreal', '514-222-2225', 2.5),
+(2, 3, 3, '600 Rue St-Denis, QC, Montreal, Canada', 'Montreal', '514-222-2226', 3.0),
+(2, 3, 3, '700 Rue Guy, QC, Montreal, Canada', 'Montreal', '514-222-2227', 4.5),
+(2, 4, 4, '800 Rue University, QC, Montreal, Canada', 'Montreal', '514-222-2228', 5.0),
+(3, 4, 1, '303 Madison Ave, NY, New York, USA', 'New York', '+1-212-333-3332', 4.5),
+(3, 5, 2, '404 Park Ave, NY, New York, USA', 'New York', '+1-212-333-3333', 3.0),
+(3, 5, 2, '505 Lexington Ave, NY, New York, USA', 'New York', '+1-212-333-3334', 2.5),
+(3, 6, 3, '606 7th Ave, NY, New York, USA', 'New York', '+1-212-333-3335', 3.5),
+(3, 6, 3, '707 8th Ave, NY, New York, USA', 'New York', '+1-212-333-3336', 4.0),
+(3, 3, 4, '808 Broadway, NY, New York, USA', 'New York', '+1-212-333-3337', 4.5),
+(3, 4, 4, '909 5th Ave, NY, New York, USA', 'New York', '+1-212-333-3338', 5.0),
+(3, 5, 4, '1010 Park Ave, NY, New York, USA', 'New York', '+1-212-333-3339', 4.0),
+(4, 6, 0, '123 Main St, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5552', 2.5),
+(4, 3, 1, '456 Vine St, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5553', 3.0),
+(4, 4, 1, '789 Hollywood Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5554', 3.5),
+(4, 5, 2, '1010 Wilshire Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5555', 4.0),
+(4, 6, 2, '1212 Sunset Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5556', 4.5),
+(4, 3, 3, '1414 Melrose Ave, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5557', 4.0),
+(4, 4, 3, '1616 La Brea Ave, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5558', 4.5),
+(4, 5, 4, '1818 Santa Monica Blvd, CA, Los Angeles, USA', 'Los Angeles', '+1-310-555-5559', 5.0),
+(5, 6, 0, '100 Main St, NY, New York, USA', 'New York', '+1-212-555-5552', 2.5),
+(5, 3, 1, '200 Broadway, NY, New York, USA', 'New York', '+1-212-555-5553', 3.0),
+(5, 4, 1, '300 5th Ave, NY, New York, USA', 'New York', '+1-212-555-5554', 3.5),
+(5, 5, 2, '400 Park Ave, NY, New York, USA', 'New York', '+1-212-555-5555', 4.0),
+(5, 6, 2, '500 Madison Ave, NY, New York, USA', 'New York', '+1-212-555-5556', 4.5),
+(5, 3, 3, '600 Lexington Ave, NY, New York, USA', 'New York', '+1-212-555-5557', 4.0),
+(5, 4, 3, '700 8th Ave, NY, New York, USA', 'New York', '+1-212-555-5558', 4.5),
+(5, 5, 4, '800 7th Ave, NY, New York, USA', 'New York', '+1-212-555-5559', 5.0);
 
 INSERT INTO Room(room_number, hotel_id, price_per_night, room_capacity, extension_capacity, tags, notes)
 VALUES

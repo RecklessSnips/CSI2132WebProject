@@ -25,7 +25,16 @@ public class Room implements ISQLReadable {
     public String getNotes() { return notes; }
 
     public Room () {}
-
+    public Room(int roomId, int roomNumber, int hotelId, double pricePerNight, int roomCapacity, int extensionCapacity, int tags, String notes) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.hotelId = hotelId;
+        this.pricePerNight = pricePerNight;
+        this.roomCapacity = roomCapacity;
+        this.extensionCapacity = extensionCapacity;
+        this.tags = tags;
+        this.notes = notes;
+    }
     @Override
     public void ReadFromResultSet(ResultSet resultSet, int startColumn, boolean excludeId) throws SQLException {
         if(!excludeId) {
