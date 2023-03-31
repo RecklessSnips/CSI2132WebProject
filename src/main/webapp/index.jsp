@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Hotel Search Page</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}ind.css">
   </head>
   <body>
     <%
@@ -99,6 +99,7 @@
                 <p>Item Description</p>
                 <p class="price">$25.00 per night</p>
                 <p class="location">Toronto, ON</p>
+                <button class="book-btn">Book</button>
               </div>
             </li>
             <li>
@@ -108,6 +109,7 @@
                 <p>Item Description</p>
                 <p class="price">$100.00 per night</p>
                 <p class="location">Mississauga, ON</p>
+                <button class="book-btn">Book</button>
               </div>
             </li>
             <li>
@@ -117,6 +119,7 @@
                 <p>Item Description</p>
                 <p class="price">$75.00 per night</p>
                 <p class="location">Brampton, ON</p>
+                <button class="book-btn">Book</button>
               </div>
             </li>
           </ul>
