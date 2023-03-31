@@ -43,9 +43,11 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if(accountAcc.checkIfLogInIsValid(username, password)) {
+            int accountId = accountAcc.getAccountIdFromUsername(username);
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
-            session.setAttribute("accountId", accountAcc.getAccountIdFromUsername(username));
+            session.setAttribute("accountId", accountId);
+            session.setAttribute("personId", accountAcc.getAccountPersonPair(accountId).getSecond().getPersonId());
             session.setMaxInactiveInterval(30*60);
 
             Cookie usernameCookie = new Cookie("username", username);

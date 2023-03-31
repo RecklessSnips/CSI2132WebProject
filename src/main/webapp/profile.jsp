@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="Utilities.*, Entities.*" %>
+<%@ page import="Utilities.*, Entities.*, java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,7 @@
     <%
         boolean allowedToEdit = false;
         Pair<Account, Person> accPair = (Pair<Account, Person>)request.getAttribute("accountPersonPair");
+        ArrayList<BookingDisplay> bookings = (ArrayList<BookingDisplay>)request.getAttribute("bookings");
     %>
     <div class="title">
         User Profile
@@ -75,35 +76,24 @@
 					<th>Address</th>
 					<th>Check-in Date</th>
 					<th>Check-out Date</th>
-					<th>Number of Guests</th>
 					<th>Room Size</th>
 				</tr>
 			</thead>
 			<tbody>
+			    <%if(bookings != null) {
+			    for(int i = 0; i < bookings.size(); i++) {%>
 				<tr>
-					<td>The Ritz Carlton</td>
-					<td>2023-04-01</td>
-					<td>2023-04-05</td>
-					<td>2</td>
-					<td>Deluxe King Room</td>
-                    <td><button class="remove-button">Remove</button></td>
+					<td><%=bookings.get(i).chainName%></td>
+					<td><%=bookings.get(i).address.toString()%></td>
+					<td><%=bookings.get(i).startDate.toString()%></td>
+					<td><%=bookings.get(i).endDate.toString()%></td>
+					<td><%=bookings.get(i).roomCapacity%></td>
+					<td><form action="/profile" method="post">
+                        <button class="remove-button" type="submit" value=<%="delete-"+bookings.get(i).bookingId%> name="RemoveButton">Remove</button>
+                    </form></td>
 				</tr>
-				<tr>
-					<td>The Four Seasons</td>
-					<td>2023-05-15</td>
-					<td>2023-05-20</td>
-					<td>3</td>
-					<td>Grand Suite</td>
-                    <td><button class="remove-button">Remove</button></td>
-				</tr>
-				<tr>
-					<td>The W Hotel</td>
-					<td>2023-06-10</td>
-					<td>2023-06-15</td>
-					<td>2</td>
-					<td>Spectacular Room</td>
-                    <td><button class="remove-button">Remove</button></td>
-				</tr>
+				<%}
+				}%>
 			</tbody>
             
 		</table>
