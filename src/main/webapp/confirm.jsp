@@ -17,6 +17,10 @@
 	if (session != null) {
 		username = (String)session.getAttribute("username");
 	}
+
+	Hotel hotel = request.getAttribute("hotel");
+	Room hotel = request.getAttribute("room");
+
 %>
 	<div class="container">
 		<h1>Hotel Rental Confirmation</h1>

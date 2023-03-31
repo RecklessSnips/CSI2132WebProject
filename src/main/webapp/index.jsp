@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Hotel Search Page</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}ind.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
   </head>
   <body>
     <%
@@ -13,10 +13,6 @@
     <header>
       <div class="container">
         <h1>Hotel Search Page</h1>
-        <form>
-          <input type="text" placeholder="Search for items...">
-          <button type="submit" class="search-button">Search</button>
-        </form>
         <div class="login-buttons">
           <% if(!isLoggedIn) {%>
           <a href="login"><button class="login">Login</button></a>

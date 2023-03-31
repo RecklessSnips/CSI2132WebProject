@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 
-//@WebServlet(urlPatterns = "/search.jsp")
+@WebServlet(urlPatterns = "/")
 public class IndexServlet extends HttpServlet {
 
     Database db;
@@ -27,6 +27,12 @@ public class IndexServlet extends HttpServlet {
         roomAccessor = new RoomAccessor(db);
         hotelAccessor = new HotelAccessor(db);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {

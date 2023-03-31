@@ -10,7 +10,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/login")
+@WebServlet(urlPatterns = "/book")
 public class BookServlet extends HttpServlet {
 
     Database db;

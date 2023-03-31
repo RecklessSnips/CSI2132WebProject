@@ -25,9 +25,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // This is how to provide data with the request:
-        //Object data = "Some data, can be a String or a Javabean";
-        //req.setAttribute("data", data);
         req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
