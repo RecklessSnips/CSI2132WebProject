@@ -168,4 +168,19 @@ public class RoomAccessor extends DatabaseAccessor {
 
         return (ArrayList<Pair<Room, Hotel>>) acc.getResult();
     }
+
+    public Room getRoomFromId (int roomId) {
+        AccessResult acc = tryReturnStatement((conn) -> {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Room WHERE roomId = ?");
+            statement.setInt(1, roomId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                Room room = new Room();
+                room.ReadFromResultSet(resultSet, 1, true);
+                return new AccessResult(true, room);
+            }
+            return AccessResult.failed();
+        });
+        return acc.getResult();
+    }
 }
