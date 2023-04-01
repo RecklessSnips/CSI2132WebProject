@@ -141,8 +141,8 @@ public class IndexServlet extends HttpServlet {
                 if(priceMinEnabled) {
                     req.setAttribute("maxPrice", (int)priceMax);
                 }
-                req.getSession().setAttribute("confirmedStartDate", checkInDate.toString());
-                req.getSession().setAttribute("confirmedEndDate", checkOutDate.toString());
+                req.getSession().setAttribute("confirmedStartDate", checkInDate);
+                req.getSession().setAttribute("confirmedEndDate", checkOutDate);
 
                 req.setAttribute("rooms", rooms);
                 req.setAttribute("hotelChains", hotelAccessor.getHotelChains());

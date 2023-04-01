@@ -12,8 +12,6 @@
     boolean isLoggedIn = loggedInObject != null && (boolean)loggedInObject == true;
     ArrayList<HotelChain> hotelChains = (ArrayList<HotelChain>)request.getAttribute("hotelChains");
     ArrayList<RoomDisplay> rooms = (ArrayList<RoomDisplay>)request.getAttribute("rooms");
-
-
     %>
     <header>
       <div class="container">

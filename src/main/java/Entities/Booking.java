@@ -31,7 +31,7 @@ public class Booking implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLD
     }
 
     public final String insertQuery =
-            "INSERT INTO Booking(room_id, person_id, start_date, start_end)VALUES (?,?,?,?);";
+            "INSERT INTO Booking(room_id, person_id, start_date, end_date)VALUES (?,?,?,?);";
     public final String updateQuery =
             "UPDATE Booking SET start_date=?, end_date=? WHERE bookingId = ?;";
     public final String deleteQuery =
