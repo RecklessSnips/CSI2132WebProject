@@ -1,10 +1,9 @@
 package Entities;
 
 public enum AccountType {
-    Invalid(0),
-    Client(1),
-    Employee(2),
-    Admin(3);
+    Client(0),
+    Employee(1),
+    Admin(2);
 
     // Allows us to convert enums to int back and forth
     private final int value;
@@ -20,6 +19,6 @@ public enum AccountType {
         for (int i = 0; i < As.length; i++) {
             if (As[i].Compare(value)) return As[i];
         }
-        return AccountType.Invalid;
+        return AccountType.Client;
     }
 }

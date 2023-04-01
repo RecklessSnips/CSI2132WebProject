@@ -16,6 +16,12 @@
             color: white;
             font-size: 32px;
 		}
+
+		.form_button_row {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+		}
         
 		table {
 			width: 100%;

@@ -52,30 +52,7 @@ public class DeleteAccount extends HttpServlet {
                 session.invalidate();
             }
 
-            ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    HotelType.Default,
-                    "",
-                    0,
-                    0,
-                    0,
-                    0,
-                    Date.valueOf("1970-1-1"),
-                    Date.valueOf("1970-1-1"));
-
-            req.setAttribute("rooms", rooms);
-            req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
-
-            // Refresh the page
-            doGet(req, resp);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-            resp.sendRedirect("");
+            resp.sendRedirect("/");
         }
         catch (Exception e) {}
 
