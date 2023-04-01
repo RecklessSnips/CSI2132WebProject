@@ -39,10 +39,10 @@ public class BookingAccessor extends DatabaseAccessor{
 
 
 
-    public int createNewBooking(Room room, Person person, Date start, Date end) {
+    public int createNewBooking(int roomId, int personId, Date start, Date end) {
         AccessResult result = tryReturnStatement((conn) -> {
 
-            Booking booking = new Booking(room.getRoomId(), person.getPersonId(), start, end);
+            Booking booking = new Booking(roomId, personId, start, end);
 
             int bookingid = booking.WriteFromStatement(conn);
 

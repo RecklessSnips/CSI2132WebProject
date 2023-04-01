@@ -105,11 +105,14 @@ main {
 }
 
 .results {
-    width: 70%;
     float: right;
     padding: 20px;
     border-radius: 5px;
     background-color: #fff;
+
+    overflow-y: scroll; /* Allow vertical scrolling for the results */
+    width: 70%; /* Set the width of the results container */
+    height: calc(100vh - 78px * 2);
 }
 
 .results h2 {

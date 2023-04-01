@@ -55,41 +55,47 @@ public class RoomAccessor extends DatabaseAccessor {
             if(categoryEnabled) {
                 queryBuilder.append("category = ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
-            if(conditionCount > 0) queryBuilder.append(" AND ");
+
             if(areaEnabled) {
                 queryBuilder.append("area = ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
-            if(conditionCount > 0) queryBuilder.append(" AND ");
+
             if(roomCapacityEnabled) {
                 queryBuilder.append("room_capacity = ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
-            if(conditionCount > 0) queryBuilder.append(" AND ");
+
             if(chainEnabled) {
                 queryBuilder.append("chain_id = ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
 
-            if(conditionCount > 0) queryBuilder.append(" AND ");
             if(priceMinEnabled) {
                 queryBuilder.append("price_per_night >= ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
 
-            if(conditionCount > 0) queryBuilder.append(" AND ");
             if(priceMaxEnabled) {
                 queryBuilder.append("price_per_night <= ?");
                 conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
 
-            if(conditionCount > 0) queryBuilder.append(" AND ");
             if(timeEnabled) {
                 queryBuilder.append("room_id NOT IN (SELECT room_id FROM Booking WHERE start_date < ? AND end_date > ?) ");
+
+                conditionCount--;
+                if(conditionCount > 0) queryBuilder.append(" AND ");
             }
         }
-        queryBuilder.append("LIMIT 50;");
+        queryBuilder.append(" LIMIT 50;");
         System.out.println(queryBuilder.toString());
 
         AccessResult acc = tryReturnStatement((conn) -> {

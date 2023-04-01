@@ -46,32 +46,26 @@
 			</tr>
 		</table>
 		 <div class="signup-form">
-        		<form action="/confirm" method="post">
-                      <%--@declare id="credit-card-num"--%><%--@declare id="exp-date"--%><%--@declare id="cvv"--%><h1>Payment</h1>
-                      <% if (request.getAttribute("failedLogin") != null && (boolean)request.getAttribute("failedLogin")) {%>
-                      <div class="error">
-                        <p>Either the username and/or password are invalid.</p>
-                      </div>
-                      <% } %>
-                      <label for="credit-card-num">Credit Card</label>
-                      <input type="text" name="credit-card-num">
-                      <label for="exp-date">Expiry Date</label>
-                      <input type="text" name="exp-date">
-                      <label for="CVV">CVV</label>
-                      <input type="text" name="CVV">
-
-        		<p>Thank you for choosing our hotel. We look forward to your stay.</p>
-        		<div>
-        			<button class="btn" onclick="location.href='search.jsp'">Back</button>
-        			<button class="btn" onclick="location.href='search.jsp'">Confirm</button>
-        			<button type="submit" class="btn" onclick="location.href='search.jsp'">Confirm</button>
-        		</div>
-        		</form>
-        		</div>
-		<p><% System.out.println(username + ", "); %>Thank you for choosing our hotel. We look forward to your stay.</p>
+            <form action="/confirm" method="post">
+              <%--@declare id="credit-card-num"--%><%--@declare id="exp-date"--%><%--@declare id="cvv"--%><h1>Payment</h1>
+              <% if (request.getAttribute("failedLogin") != null && (boolean)request.getAttribute("failedLogin")) {%>
+              <div class="error">
+                <p>Either the username and/or password are invalid.</p>
+              </div>
+              <% } %>
+              <label for="credit-card-num">Credit Card</label>
+              <input type="text" name="credit-card-num">
+              <label for="exp-date">Expiry Date</label>
+              <input type="text" name="exp-date">
+              <label for="CVV">CVV</label>
+              <input type="text" name="CVV">
+            </form>
+            <button class="btn" button type="submit" >Confirm</button>
+        </div>
+		<p>Thank you for choosing our hotel. We look forward to your stay.</p>
 		<div>
-			<button class="btn" onclick="location.href='search.jsp'">Back</button>
-			<button class="btn" onclick="location.href='search.jsp'">Confirm</button>
+			<button class="btn" onclick="location.href='/'">Back</button>
+
 		</div>
 	</div>
 </body>

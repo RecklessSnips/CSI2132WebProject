@@ -33,12 +33,18 @@
       <div class="container">
         <div class="filters">
           <h2>Filters</h2>
-          <form>
+          <form action="/" method="post">
+
             <label for="check-in">Check-In:</label>
-            <input type="date" id="check-in" name="check-in">
+            <input type="date" id="check-in" name="check-in" value="<%=session.getAttribute("confirmedStartDate")%>">
 
             <label for="check-out">Check-Out:</label>
-            <input type="date" id="check-out" name="check-out">
+            <input type="date" id="check-out" name="check-out" value="<%=session.getAttribute("confirmedEndDate")%>">
+
+            <%if(session.getAttribute("confirmedStartDate") == null || session.getAttribute("confirmedEndDate") == null) {%>
+            <p> Check-in and Check-out both need to be set to be able to book a room </p>
+            <%}%>
+
             <label for="category">Hotel Category</label>
             <select id="category" name="category">
               <option value="all">All Categories</option>
@@ -74,11 +80,11 @@
                 <h3>Price</h3>
                 <div class="form-group">
                   <label for="price-min">Min</label>
-                  <input type="number" id="price-min" name="price-min" placeholder="Min price" min="0">
+                  <input type="number" id="price-min" name="price-min" placeholder="Min price" min="0" value="${minPrice}">
                 </div>
                 <div class="form-group">
                   <label for="price-max">Max</label>
-                  <input type="number" id="price-max" name="price-max" placeholder="Max price" min="0">
+                  <input type="number" id="price-max" name="price-max" placeholder="Max price" min="0" value="${maxPrice}">
                 </div>
               </div>
             <button type="submit" name="ApplyFilters" value ="submit">Apply Filters</button>
@@ -97,10 +103,10 @@
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
                 <h3><%=room.chainName%></h3>
                 <p>Item Description</p>
-                <p class="price">$<%=room.roomPrice%> per night</p>
+                <p class="price">$<%=String.format("%.2f",room.roomPrice)%> per night</p>
                 <p class="location"><%=room.address.getCity()%>, <%=room.address.getRegion()%></p>
-                <%if(isLoggedIn) {%>
-                <form action="/" method="post">
+                <%if(isLoggedIn && session.getAttribute("confirmedStartDate") != null && session.getAttribute("confirmedEndDate") != null) {%>
+                <form method="post">
                     <button class="book-btn" type="submit" value=<%="book-"+room.roomId%> name="BookButton">Book</button>
                 </form>
                 <%}%>

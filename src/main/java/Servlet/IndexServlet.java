@@ -68,8 +68,8 @@ public class IndexServlet extends HttpServlet {
             String[] buttonParams = req.getParameter("BookButton").split("-");
             try {
                 int roomId = Integer.parseInt(buttonParams[buttonParams.length - 1]);
-                req.setAttribute("roomId", roomId);
-                req.getRequestDispatcher("/confirm.jsp").forward(req, resp);
+                req.getSession().setAttribute("confirmedRoomId", roomId);
+                resp.sendRedirect("/confirm");
             }
             catch (Exception e) {}
             return;
@@ -115,8 +115,8 @@ public class IndexServlet extends HttpServlet {
 
                 int chainId = 1;
 
-                boolean categoryEnabled = !category.equals("");
-                boolean areaEnabled = !area.equals("");
+                boolean categoryEnabled = category != null && !category.equals("");
+                boolean areaEnabled = area != null && !area.equals("");
 
                 ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
                         categoryEnabled,
@@ -135,9 +135,18 @@ public class IndexServlet extends HttpServlet {
                         checkInDate,
                         checkOutDate);
 
-                req.setAttribute("rooms", rooms);
+                if(priceMinEnabled) {
+                    req.setAttribute("minPrice", (int)priceMin);
+                }
+                if(priceMinEnabled) {
+                    req.setAttribute("maxPrice", (int)priceMax);
+                }
+                req.getSession().setAttribute("confirmedStartDate", checkInDate.toString());
+                req.getSession().setAttribute("confirmedEndDate", checkOutDate.toString());
 
-                doGet(req, resp);
+                req.setAttribute("rooms", rooms);
+                req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
+                req.getRequestDispatcher("/index.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
             }

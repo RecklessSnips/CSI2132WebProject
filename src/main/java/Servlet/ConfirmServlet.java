@@ -35,12 +35,13 @@ public class ConfirmServlet extends HttpServlet {
         Hotel hotel = null;
         HotelChain hotelChain = null;
 
-        if(req.getAttribute("roomId") == null) {
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        if(req.getSession().getAttribute("confirmedRoomId") == null) {
+            System.out.println("RoomID is null");
+            resp.sendRedirect("/");
             return;
         }
 
-        int confirmedRoom = (int)req.getAttribute("roomId");
+        int confirmedRoom = (int)req.getSession().getAttribute("confirmedRoomId");
 
         room = roomAccessor.getRoomFromId(confirmedRoom);
         hotel = hotelAccessor.getHotelFromId(room.getHotelId());
@@ -56,13 +57,15 @@ public class ConfirmServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        System.out.println("Creating booking");
 
-//        Come back to this with room id ready in session
-//        booking = new Booking (roomId, accPair.getSecond().getPersonId(),startDate,endDate)
-//
-//        bookingAcc.createNewBooking()
+        int roomId = (int)req.getSession().getAttribute("confirmedRoomId");
+        int personId = (int)req.getSession().getAttribute("personId");
+        Date startDate = (Date)req.getSession().getAttribute("confirmedStartDate");
+        Date endDate = (Date)req.getSession().getAttribute("confirmedEndDate");
+        bookingAcc.createNewBooking(roomId, personId, startDate, endDate);
 
-
+        resp.sendRedirect("/profile");
     }
 
     @Override
