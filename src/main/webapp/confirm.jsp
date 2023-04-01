@@ -9,18 +9,10 @@
 	<title>Hotel Rental Confirmation</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="/css/confirm.css">
 </head>
 <body>
 <%
-	String username = "";
-	session = request.getSession(false);
-	if (session != null) {
-		username = (String)session.getAttribute("username");
-	}
-
 	Hotel hotel = (Hotel) request.getAttribute("hotel");
 	Room room = (Room) request.getAttribute("room");
 	HotelChain hotelChain = (HotelChain) request.getAttribute("hotelChain");

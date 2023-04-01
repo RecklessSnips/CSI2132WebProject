@@ -13,6 +13,7 @@
     ArrayList<HotelChain> hotelChains = (ArrayList<HotelChain>)request.getAttribute("hotelChains");
     ArrayList<RoomDisplay> rooms = (ArrayList<RoomDisplay>)request.getAttribute("rooms");
 
+
     %>
     <header>
       <div class="container">
@@ -80,7 +81,7 @@
                   <input type="number" id="price-max" name="price-max" placeholder="Max price" min="0">
                 </div>
               </div>
-            <button type="submit">Apply Filters</button>
+            <button type="submit" name="ApplyFilters" value ="submit">Apply Filters</button>
           </form>
         </div>
         <div class="results">
@@ -90,6 +91,7 @@
           RoomDisplay room = rooms.get(i);
 
           %>
+
             <li>
               <div class="item">
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
@@ -97,9 +99,15 @@
                 <p>Item Description</p>
                 <p class="price">$<%=room.roomPrice%> per night</p>
                 <p class="location"><%=room.address.getCity()%>, <%=room.address.getRegion()%></p>
-                <a href="/confirm"><button class="book-btn">Book</button></a>
+                <%if(isLoggedIn) {%>
+                <form action="/" method="post">
+                    <button class="book-btn" type="submit" value=<%="book-"+room.roomId%> name="BookButton">Book</button>
+                </form>
+                <%}%>
               </div>
             </li>
+
+
            <%}%>
           </ul>
         </div>

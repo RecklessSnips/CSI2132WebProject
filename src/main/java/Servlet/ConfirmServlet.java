@@ -35,8 +35,12 @@ public class ConfirmServlet extends HttpServlet {
         Hotel hotel = null;
         HotelChain hotelChain = null;
 
-        //int confirmedRoom = (int)req.getSession().getAttribute("confimredRoom");
-        int confirmedRoom = 1;
+        if(req.getAttribute("roomId") == null) {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            return;
+        }
+
+        int confirmedRoom = (int)req.getAttribute("roomId");
 
         room = roomAccessor.getRoomFromId(confirmedRoom);
         hotel = hotelAccessor.getHotelFromId(room.getHotelId());
