@@ -20,6 +20,7 @@ public class Account implements ISQLReadable, ISQLWritable, ISQLDeletable {
     public String getUsername() { return username; }
     public String getSsnSin() { return ssnSin; }
     public Date getCreationDate() { return creationDate; }
+    public AccountType getType() {return type;}
 
     public Account () {}
     public Account (String username, String ssnSin, AccountType type) {
