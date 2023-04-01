@@ -29,43 +29,50 @@ public class LogoutServlet extends HttpServlet {
         roomAccessor =  new RoomAccessor(db);
     }
 
-    @Override
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Not sure if we should get anything
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
 
-        // Invalidate the session if exists
-        HttpSession session = req.getSession(false);
-        System.out.println("User disconnected : " + session.getAttribute("username"));
-        if(session != null){
-            session.invalidate();
+            // Invalidate the session if exists
+            HttpSession session = req.getSession(false);
+            System.out.println("User disconnected : " + session.getAttribute("username"));
+            if (session != null) {
+                session.invalidate();
+            }
+
+            ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    HotelType.Default,
+                    "",
+                    0,
+                    0,
+                    0,
+                    0,
+                    Date.valueOf("1970-1-1"),
+                    Date.valueOf("1970-1-1"));
+
+            req.setAttribute("rooms", rooms);
+            req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
+
+            // Refresh the page
+            doGet(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            resp.sendRedirect("");
         }
-        ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                HotelType.Default,
-                "",
-                0,
-                0,
-                0,
-                0,
-                Date.valueOf("1970-1-1"),
-                Date.valueOf("1970-1-1"));
+        catch (Exception e) {}
 
-        req.setAttribute("rooms", rooms);
-        req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
-
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
-        resp.sendRedirect("index.jsp");
     }
 
     @Override
