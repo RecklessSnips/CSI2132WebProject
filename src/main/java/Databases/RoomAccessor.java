@@ -50,7 +50,7 @@ public class RoomAccessor extends DatabaseAccessor {
 
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("SELECT room_id, room_number, chain_name, address, tags, room_capacity, extension_capacity, price_per_night FROM Room NATURAL JOIN Hotel NATURAL JOIN HotelChain ");
-        if(conditionCount >= 0) {
+        if(conditionCount > 0) {
             queryBuilder.append(" WHERE ");
             if(categoryEnabled) {
                 queryBuilder.append("category = ?");
@@ -90,6 +90,7 @@ public class RoomAccessor extends DatabaseAccessor {
             }
         }
         queryBuilder.append("LIMIT 50;");
+        System.out.println(queryBuilder.toString());
 
         AccessResult acc = tryReturnStatement((conn) -> {
             PreparedStatement statement = conn.prepareStatement(queryBuilder.toString());

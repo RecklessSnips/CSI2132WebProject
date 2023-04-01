@@ -37,7 +37,25 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(hotelAccessor.getHotelChains().size());
+
+        ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                HotelType.Default,
+                "",
+                0,
+                0,
+                0,
+                0,
+                Date.valueOf("1970-1-1"),
+                Date.valueOf("1970-1-1"));
+
+        req.setAttribute("rooms", rooms);
         req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }

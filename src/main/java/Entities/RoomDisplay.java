@@ -25,7 +25,7 @@ public class RoomDisplay implements ISQLReadable {
         roomNumber = resultSet.getInt(2);
         chainName = resultSet.getString(3);
         address = Address.parseSQLAddress(resultSet.getString(4));
-        roomTags = resultSet.getInt(5);
+        roomTags = Integer.parseInt(resultSet.getString(5).replace('X','1').trim(), 2);
         roomCapacity = resultSet.getInt(6);
         extensionCapacity = resultSet.getInt(7);
         roomPrice = resultSet.getInt(8);

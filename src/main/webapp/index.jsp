@@ -11,6 +11,7 @@
     Object loggedInObject = request.getSession().getAttribute("isLoggedIn");
     boolean isLoggedIn = loggedInObject != null && (boolean)loggedInObject == true;
     ArrayList<HotelChain> hotelChains = (ArrayList<HotelChain>)request.getAttribute("hotelChains");
+    ArrayList<RoomDisplay> rooms = (ArrayList<RoomDisplay>)request.getAttribute("rooms");
 
     %>
     <header>
@@ -85,36 +86,21 @@
         <div class="results">
           <h2>Results</h2>
           <ul>
+          <%for(int i = 0; i < rooms.size(); i++) {
+          RoomDisplay room = rooms.get(i);
+
+          %>
             <li>
               <div class="item">
                 <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Hotel Name</h3>
+                <h3><%=room.chainName%></h3>
                 <p>Item Description</p>
-                <p class="price">$25.00 per night</p>
-                <p class="location">Toronto, ON</p>
+                <p class="price">$<%=room.roomPrice%> per night</p>
+                <p class="location"><%=room.address.getCity()%>, <%=room.address.getRegion()%></p>
                 <a href="/confirm"><button class="book-btn">Book</button></a>
               </div>
             </li>
-            <li>
-              <div class="item">
-                <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Hotel Name</h3>
-                <p>Item Description</p>
-                <p class="price">$100.00 per night</p>
-                <p class="location">Mississauga, ON</p>
-                <a href="/confirm"><button class="book-btn">Book</button></a>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <img src="https://via.placeholder.com/150x150" alt="Item Image">
-                <h3>Hotel Name</h3>
-                <p>Item Description</p>
-                <p class="price">$75.00 per night</p>
-                <p class="location">Brampton, ON</p>
-                <a href="/confirm"><button class="book-btn">Book</button></a>
-              </div>
-            </li>
+           <%}%>
           </ul>
         </div>
       </div>
