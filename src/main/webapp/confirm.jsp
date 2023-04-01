@@ -59,13 +59,13 @@
               <input type="text" name="exp-date">
               <label for="CVV">CVV</label>
               <input type="text" name="CVV">
-            </form>
-            <button class="btn" button type="submit" >Confirm</button>
-        </div>
-		<p>Thank you for choosing our hotel. We look forward to your stay.</p>
-		<div>
-			<button class="btn" onclick="location.href='/'">Back</button>
 
+              <button class="btn" type="submit" >Confirm</button>
+              </div>
+              <p>Thank you for choosing our hotel. We look forward to your stay.</p>
+              <div>
+			<button class="btn" onclick="location.href='/'">Back</button>
+            </form>
 		</div>
 	</div>
 </body>
