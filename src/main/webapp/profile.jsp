@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>User Profile</title>
-	<link rel="stylesheet" type="text/css" href="profile.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css">
 </head>
 <body>
     <%

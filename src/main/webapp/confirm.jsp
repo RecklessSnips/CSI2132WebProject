@@ -24,7 +24,6 @@
 	Hotel hotel = (Hotel) request.getAttribute("hotel");
 	Room room = (Room) request.getAttribute("room");
 	HotelChain hotelChain = (HotelChain) request.getAttribute("hotelChain");
-
 %>
 	<div class="container">
 		<h1>Hotel Rental Confirmation</h1>

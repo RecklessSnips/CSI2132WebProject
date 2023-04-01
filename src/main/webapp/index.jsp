@@ -1,14 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="Utilities.*, Entities.*, java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
   <head>
     <title>Hotel Search Page</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
   </head>
   <body>
     <%
     Object loggedInObject = request.getSession().getAttribute("isLoggedIn");
     boolean isLoggedIn = loggedInObject != null && (boolean)loggedInObject == true;
+    ArrayList<HotelChain> hotelChains = (ArrayList<HotelChain>)request.getAttribute("hotelChains");
+
     %>
     <header>
       <div class="container">
@@ -54,23 +57,17 @@
             <label for="room-capacity">Room Capacity:</label>
             <input type="number" id="room-capacity" name="room-capacity" min="1" max="10">
 
-            <label for="area">Area:</label>
-            <select id="area" name="area">
-              <option value="">Any</option>
-              <option value="downtown">Downtown</option>
-              <option value="uptown">Uptown</option>
-              <option value="midtown">Midtown</option>
-            </select>
-
             <label for="hotel-chain">Hotel Chain:</label>
             <select id="hotel-chain" name="hotel-chain">
-              <option value="">Any</option>
-              <option value="hilton">Hilton</option>
-              <option value="marriott">Marriott</option>
-              <option value="ihg">IHG</option>
+              <option value="0">Any</option>
+              <%if(hotelChains != null) { for(int i = 0; i < hotelChains.size(); i++) {%>
+              <option value=<%=hotelChains.get(i).getChainId()%>><%=hotelChains.get(i).getChainName()%></option>
+              <%}}%>
             </select>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="location" placeholder="Enter location...">
+
+            <label for="location">City/Area:</label>
+            <input type="text" id="area" name="area" placeholder="Enter location...">
+
             <div class="price-filter filter">
                 <h3>Price</h3>
                 <div class="form-group">

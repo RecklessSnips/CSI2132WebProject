@@ -7,6 +7,7 @@ import Utilities.AccessResult;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class HotelAccessor extends DatabaseAccessor {
     public HotelAccessor(Database database) {
@@ -26,6 +27,23 @@ public class HotelAccessor extends DatabaseAccessor {
             return AccessResult.failed();
         });
         return (HotelChain)acc.getResult();
+    }
+
+    public ArrayList<HotelChain> getHotelChains () {
+        AccessResult acc = tryReturnStatement((conn) -> {
+
+            ArrayList<HotelChain> hotelChains = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM HotelChain");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                HotelChain hotelChain = new HotelChain();
+                hotelChain.ReadFromResultSet(resultSet, 1, false);
+                hotelChains.add(hotelChain);
+            }
+            return new AccessResult(true, hotelChains);
+        });
+        return (ArrayList<HotelChain>)acc.getResult();
     }
 
     public Hotel getHotelFromId (int hotelId) {

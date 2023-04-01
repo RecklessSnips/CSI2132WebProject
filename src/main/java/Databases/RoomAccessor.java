@@ -1,9 +1,6 @@
 package Databases;
 
-import Entities.Hotel;
-import Entities.HotelType;
-import Entities.Room;
-import Entities.RoomTags;
+import Entities.*;
 import Utilities.AccessResult;
 import Utilities.Address;
 import Utilities.Pair;
@@ -26,7 +23,7 @@ public class RoomAccessor extends DatabaseAccessor {
     // -> Get a list of areas
     // SELECT DISTINCT area FROM HOTEL;
 
-    public ArrayList<Pair<Room, Hotel>> getRoomsWithConditions(
+    public ArrayList<RoomDisplay> getRoomsWithConditions(
             boolean categoryEnabled,
             boolean areaEnabled,
             boolean roomCapacityEnabled,
@@ -52,7 +49,7 @@ public class RoomAccessor extends DatabaseAccessor {
             (timeEnabled ? 1 : 0);
 
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT * FROM Room NATURAL JOIN Hotel ");
+        queryBuilder.append("SELECT room_id, room_number, chain_name, address, tags, room_capacity, extension_capacity, price_per_night FROM Room NATURAL JOIN Hotel NATURAL JOIN HotelChain ");
         if(conditionCount >= 0) {
             queryBuilder.append(" WHERE ");
             if(categoryEnabled) {
@@ -74,15 +71,6 @@ public class RoomAccessor extends DatabaseAccessor {
                 queryBuilder.append("chain_id = ?");
                 conditionCount--;
             }
-//            if(conditionCount > 0) queryBuilder.append(" AND ");
-//            if(priceEnabled) {
-//                if(isAbovePrice) {
-//                    queryBuilder.append("price_per_night > ?");
-//                } else {
-//                    queryBuilder.append("price_per_night < ?");
-//                }
-//                conditionCount--;
-//            }
 
             if(conditionCount > 0) queryBuilder.append(" AND ");
             if(priceMinEnabled) {
@@ -138,35 +126,18 @@ public class RoomAccessor extends DatabaseAccessor {
                 index++;
             }
 
-            ArrayList<Pair<Room, Hotel>> rooms = new ArrayList<>();
+            ArrayList<RoomDisplay> rooms = new ArrayList<>();
             ResultSet results = statement.executeQuery();
             while (results.next()) {
-                Room room = new Room(
-                    results.getInt(2),
-                    results.getInt(3),
-                    results.getInt(1),
-                    results.getDouble(4),
-                    results.getInt(5),
-                    results.getInt(6),
-                    Integer.parseInt(results.getString(7).replace('X', '1').trim(), 2),
-                    results.getString(8));
-                Hotel hotel = new Hotel(
-                    results.getInt(1),
-                    results.getInt(9),
-                    results.getInt(10),
-                    Address.parseSQLAddress(results.getString(11)),
-                    results.getString(12),
-                    results.getString(13),
-                    results.getDouble(14),
-                    HotelType.getEnum(results.getInt(15))
-                );
-                rooms.add(new Pair<>(room,hotel));
+                RoomDisplay roomDisplay = new RoomDisplay();
+                roomDisplay.ReadFromResultSet(results, 1, false);
+                rooms.add(roomDisplay);
             }
 
             return new AccessResult(true, rooms);
         });
 
-        return (ArrayList<Pair<Room, Hotel>>) acc.getResult();
+        return (ArrayList<RoomDisplay>) acc.getResult();
     }
 
     public Room getRoomFromId (int roomId) {

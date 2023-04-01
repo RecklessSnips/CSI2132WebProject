@@ -4,6 +4,11 @@ import Databases.AccountAccessor;
 import Databases.Database;
 import Databases.HotelAccessor;
 import Databases.RoomAccessor;
+import Entities.Hotel;
+import Entities.HotelType;
+import Entities.Room;
+import Entities.RoomDisplay;
+import Utilities.Pair;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,9 +16,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "")
 public class IndexServlet extends HttpServlet {
 
     Database db;
@@ -30,46 +37,70 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(hotelAccessor.getHotelChains().size());
+        req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String checkInDate = req.getParameter("check-in");
-            String checkOutDate = req.getParameter("check-out");
-            String category = req.getParameter("category");
-            int roomCapacity = 0;
-            boolean roomCapacityEnabled = false;
-            try {
-                roomCapacity = Integer.parseInt(req.getParameter("room-capacity"));
-            }
-            catch(Exception e) {
-                roomCapacityEnabled = false;
-            }
-            String area = req.getParameter("area");
-            String hotelChain = req.getParameter("hotel-chain");
-            String location = req.getParameter("location");
-            String priceMin = req.getParameter("price-min");
-            String priceMax = req.getParameter("price-max");
 
+            boolean chainEnabled = false;
+            boolean roomCapacityEnabled = true;
+            boolean priceMinEnabled = true;
+            boolean priceMaxEnabled = true;
+            boolean dateEnabled = true;
+
+            Date checkInDate = Date.valueOf("1970-1-1");
+            Date checkOutDate = Date.valueOf("1970-1-1");
+
+            try {
+                checkInDate = Date.valueOf(req.getParameter("check-in"));
+                checkOutDate = Date.valueOf(req.getParameter("check-out"));
+            } catch (Exception e) {
+                dateEnabled = false;
+            }
+
+            String category = req.getParameter("category");
+
+            int roomCapacity = 0;
+            try { roomCapacity = Integer.parseInt(req.getParameter("room-capacity")); } catch(Exception e) { roomCapacityEnabled = false; }
+
+            String hotelChain = req.getParameter("hotel-chain");
+            String area = req.getParameter("location");
+
+            double priceMin = 0.0;
+            try { priceMin = Double.parseDouble(req.getParameter("price-min")); } catch(Exception e) { priceMinEnabled = false; }
+
+            double priceMax = 0.0;
+            try { priceMax = Double.parseDouble(req.getParameter("price-max")); } catch(Exception e) { priceMaxEnabled = false; }
+
+            int chainId = 1;
 
             boolean categoryEnabled = !category.equals("");
             boolean areaEnabled = !area.equals("");
-            boolean chainEnabled = !hotelChain.equals("");
-            boolean priceEnabled = !priceMax.equals("") || !priceMin.equals("");
-            boolean timeEnabled = !checkOutDate.equals("") || !checkInDate.equals("");
 
-//            roomAccessor.getRoomsWithConditions(categoryEnabled,
-//                    areaEnabled,
-//                    roomCapacityEnabled,
-//                    false,
-//                    priceEnabled,
-//                    timeEnabled,
-//                    category,
-//                    area,
-//                    roomCapacity,
-//                    1, );
+            ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
+                    categoryEnabled,
+                    areaEnabled,
+                    roomCapacityEnabled,
+                    chainEnabled,
+                    priceMinEnabled,
+                    priceMaxEnabled,
+                    dateEnabled,
+                    HotelType.Default,
+                    area,
+                    roomCapacity,
+                    chainId,
+                    priceMin,
+                    priceMax,
+                    checkInDate,
+                    checkOutDate);
+
+            req.setAttribute("rooms", rooms);
+
+            doGet(req, resp);
         }
         catch (Exception e) {
             e.printStackTrace();

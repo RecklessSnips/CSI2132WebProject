@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>Sign Up</title>
-  <link rel="stylesheet" type="text/css" href="signup.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/signup.css">
 </head>
 <body>
   <div class="signup-form">
