@@ -63,15 +63,13 @@
         </table>
         <div class="form_button_row">
         <form action="/deleteAccount" method="post">
-            <th><button class="delete-profile-button">Delete Account</button></th>
+            <th><button class="profile-button">Delete Account</button></th>
            </form>
         <form action="/logout" method="post">
-            <th><button class="delete-profile-button" onclick="location.href='/search.jsp'">Log out</button></th>
+            <th><button class="profile-button" onclick="location.href='/logout'">Log out</button></th>
         </form>
         <%if(accPair != null && accPair.getFirst().getType().getValue() > 0){%>
-        <form action="/employee" method="post">
-            <th><button class="delete-profile-button" onclick="location.href='/employeeBooking.jsp'">Employee Booking</button></th>
-        </form>
+        <button class="profile-button" onclick="location.href='/employee'">Employee Booking</button>
         <%}%>
         </div>
 		<h2>Hotel Bookings</h2>

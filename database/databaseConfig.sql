@@ -169,8 +169,14 @@ EXECUTE FUNCTION check_booking_overlap();
 -- Automatically archive bookings to rentings
 CREATE OR REPLACE FUNCTION copy_booking_to_renting() RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO Renting SELECT * FROM Booking WHERE Booking.booking_id = NEW.booking_id;
-    DELETE FROM Booking WHERE Booking.id = NEW.booking_id;
+    UPDATE Renting 
+		SET room_id = sub_select.room_id, 
+			person_id = sub_select.person_id, 
+			start_date = sub_select.start_date,
+			end_date = sub_select.end_date
+			FROM (SELECT room_id, person_id, start_date, end_date FROM Booking WHERE booking_id = NEW.booking_id LIMIT 1) AS sub_select;
+	
+	DELETE FROM Booking WHERE booking_id = NEW.booking_id;
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;

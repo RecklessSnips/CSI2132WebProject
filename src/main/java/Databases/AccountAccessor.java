@@ -9,6 +9,8 @@ import Utilities.Pair;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountAccessor extends DatabaseAccessor{
 
@@ -116,6 +118,42 @@ public class AccountAccessor extends DatabaseAccessor{
         } else {
             return 0;
         }
+    }
+
+    public int createNewPerson(Person person) {
+        AccessResult result = tryReturnStatement((conn) -> {
+            System.out.println("TEST");
+            int personId = person.WriteFromStatement(conn);
+            System.out.println("TEST2");
+            if(personId == 0) return AccessResult.failed();
+            return new AccessResult(true, personId);
+        });
+
+        if(result.didSucceed()) {
+            return (int)result.getResult();
+        } else {
+            return 0;
+        }
+    }
+
+    public ArrayList<Person> getListOfPersonWithNames (String firstName, String lastName) {
+        AccessResult result = tryReturnStatement((conn) -> {
+
+            ArrayList<Person> persons = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Person WHERE first_name = ? AND last_name = ?");
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Person person = new Person();
+                person.ReadFromResultSet(resultSet, 1, false);
+                persons.add(person);
+            }
+
+            return new AccessResult(true, persons);
+        });
+        return (ArrayList<Person>) result.getResult();
     }
 
     public void deleteAccount (int accountId) {

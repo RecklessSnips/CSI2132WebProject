@@ -16,6 +16,6 @@ public enum RoomTags {
     }
 
     public boolean checkIfTagIsPresent(int tags) {
-        return ((1 << this.ordinal()) | tags) > 0;
+        return ((1 << this.ordinal()) & tags) > 0;
     }
 }

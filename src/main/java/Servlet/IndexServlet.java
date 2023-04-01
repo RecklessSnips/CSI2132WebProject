@@ -54,6 +54,9 @@ public class IndexServlet extends HttpServlet {
                 0,
                 Date.valueOf("1970-1-1"),
                 Date.valueOf("1970-1-1"));
+        if(rooms == null) {
+            rooms = new ArrayList<>();
+        }
 
         req.setAttribute("rooms", rooms);
         req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
@@ -77,7 +80,8 @@ public class IndexServlet extends HttpServlet {
         if(req.getParameter("ApplyFilters") != null) {
             try {
 
-                boolean chainEnabled = false;
+                boolean categoryEnabled = true;
+                boolean chainEnabled = true;
                 boolean roomCapacityEnabled = true;
                 boolean priceMinEnabled = true;
                 boolean priceMaxEnabled = true;
@@ -93,15 +97,38 @@ public class IndexServlet extends HttpServlet {
                     dateEnabled = false;
                 }
 
-                String category = req.getParameter("category");
+                HotelType hotelType = HotelType.Default;
+                try {
+                    int hotelTypeInt = Integer.parseInt(req.getParameter("category"));
+                    if(hotelTypeInt == 0) {
+                        categoryEnabled = false;
+                    }
+                    else {
+                        hotelType = HotelType.getEnum(hotelTypeInt);
+                    }
+                } catch (Exception e) {
+                    categoryEnabled = false;
+                }
 
                 int roomCapacity = 0;
-                try {roomCapacity = Integer.parseInt(req.getParameter("room-capacity"));} catch (Exception e) {
+                try {
+                    roomCapacity = Integer.parseInt(req.getParameter("room-size"));
+                    if(roomCapacity == 0) {
+                        roomCapacityEnabled = false;
+                    }
+                } catch (Exception e) {
                     roomCapacityEnabled = false;
                 }
 
-                String hotelChain = req.getParameter("hotel-chain");
-                String area = req.getParameter("location");
+                int hotelChain = 0;
+                try {
+                    hotelChain = Integer.parseInt(req.getParameter("hotel-chain"));
+                    if(hotelChain == 0) {
+                        chainEnabled = false;
+                    }
+                } catch (Exception e) {
+                    chainEnabled = false;
+                }
 
                 double priceMin = 0.0;
                 try {priceMin = Double.parseDouble(req.getParameter("price-min"));} catch (Exception e) {
@@ -113,10 +140,9 @@ public class IndexServlet extends HttpServlet {
                     priceMaxEnabled = false;
                 }
 
-                int chainId = 1;
-
-                boolean categoryEnabled = category != null && !category.equals("");
+                String area = req.getParameter("area");
                 boolean areaEnabled = area != null && !area.equals("");
+
 
                 ArrayList<RoomDisplay> rooms = roomAccessor.getRoomsWithConditions(
                         categoryEnabled,
@@ -129,20 +155,37 @@ public class IndexServlet extends HttpServlet {
                         HotelType.Default,
                         area,
                         roomCapacity,
-                        chainId,
+                        hotelChain,
                         priceMin,
                         priceMax,
                         checkInDate,
                         checkOutDate);
+                if(rooms == null) {
+                    rooms = new ArrayList<>();
+                }
 
+                if(dateEnabled) {
+                    req.getSession().setAttribute("confirmedStartDate", checkInDate);
+                    req.getSession().setAttribute("confirmedEndDate", checkOutDate);
+                }
+                if(chainEnabled) {
+                    req.setAttribute("chain", hotelChain);
+                }
+                if(areaEnabled) {
+                    req.setAttribute("area", area);
+                }
+                if(categoryEnabled) {
+                    req.setAttribute("category", hotelType.getValue());
+                }
+                if(roomCapacityEnabled) {
+                    req.setAttribute("capacity", roomCapacity);
+                }
                 if(priceMinEnabled) {
                     req.setAttribute("minPrice", (int)priceMin);
                 }
-                if(priceMinEnabled) {
+                if(priceMaxEnabled) {
                     req.setAttribute("maxPrice", (int)priceMax);
                 }
-                req.getSession().setAttribute("confirmedStartDate", checkInDate);
-                req.getSession().setAttribute("confirmedEndDate", checkOutDate);
 
                 req.setAttribute("rooms", rooms);
                 req.setAttribute("hotelChains", hotelAccessor.getHotelChains());
@@ -151,5 +194,11 @@ public class IndexServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void destroy() {
+        db.disconnect();
+        super.destroy();
     }
 }

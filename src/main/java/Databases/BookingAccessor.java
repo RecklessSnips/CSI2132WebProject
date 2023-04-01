@@ -56,6 +56,23 @@ public class BookingAccessor extends DatabaseAccessor{
         }
     }
 
+    public int createNewRenting(int roomId, int personId, Date start, Date end) {
+        AccessResult result = tryReturnStatement((conn) -> {
+
+            Booking booking = new Booking(roomId, personId, start, end);
+
+            int bookingid = booking.WriteFromStatement(conn);
+
+            return new AccessResult(true, bookingid);
+        });
+
+        if(result.didSucceed()) {
+            return (int)result.getResult();
+        } else {
+            return 0;
+        }
+    }
+
     public void deleteBookingIfBelongsToPersonId (int personId, int bookingId) {
         tryRunStatement((conn) -> {
             PreparedStatement statement = conn.prepareStatement("DELETE FROM Booking WHERE person_id = ? AND booking_id = ?;");
@@ -63,6 +80,13 @@ public class BookingAccessor extends DatabaseAccessor{
             statement.setInt(2, bookingId);
             return statement.executeQuery().next();
         });
+    }
 
+    public void transferBookingToRenting (int bookingId) {
+        tryRunStatement((conn) -> {
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO Renting(booking_id, start_date, end_date) VALUES (?, '1970-1-1', '1970-1-1');");
+            statement.setInt(1, bookingId);
+            return statement.executeQuery().next();
+        });
     }
 }

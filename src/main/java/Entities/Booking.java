@@ -32,6 +32,8 @@ public class Booking implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLD
 
     public final String insertQuery =
             "INSERT INTO Booking(room_id, person_id, start_date, end_date)VALUES (?,?,?,?);";
+    public final String insertRentingQuery =
+            "INSERT INTO Renting(room_id, person_id, start_date, end_date)VALUES (?,?,?,?);";
     public final String updateQuery =
             "UPDATE Booking SET start_date=?, end_date=? WHERE bookingId = ?;";
     public final String deleteQuery =
@@ -57,6 +59,22 @@ public class Booking implements ISQLReadable, ISQLWritable, ISQLUpdatable, ISQLD
         if(personId == 0) throw new SQLException("Invalid person ID");
 
         PreparedStatement statement = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, roomId);
+        statement.setInt(2, personId);
+        statement.setDate(3, startDate);
+        statement.setDate(4, endDate);
+        statement.executeQuery();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        bookingId = rs.getInt(1);
+        return bookingId;
+    }
+
+    public int WriteFromStatementAsRenting(Connection conn) throws SQLException {
+        if(roomId == 0) throw new SQLException("Invalid room ID");
+        if(personId == 0) throw new SQLException("Invalid person ID");
+
+        PreparedStatement statement = conn.prepareStatement(insertRentingQuery, PreparedStatement.RETURN_GENERATED_KEYS);
         statement.setInt(1, roomId);
         statement.setInt(2, personId);
         statement.setDate(3, startDate);

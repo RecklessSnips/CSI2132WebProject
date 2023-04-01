@@ -1,143 +1,163 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ahsoka
-  Date: 3/30/23
-  Time: 10:19 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Utilities.*, Entities.*, java.util.ArrayList, java.sql.Date"%>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Employee Booking</title>
-    <h1>Booking for this Customer</h1>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
+    <head>
+        <title>Employee Booking Service</title>
+        <link rel="stylesheet" type="text/css" href="css/employee.css">
+    </head>
+  <body>
+    <header>
+        <h1>Employee Booking Service</h1>
+        <div class="login-buttons">
+            <a href="profile"><button>Profile</button></a>
+        </div>
+    </header>
+        <div class="container">
+            <div class="renting-method-container">
+                <h1>Convert Booking to Renting</h1>
 
-        .container {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            max-width: 400px;
-            margin: 50px auto;
-        }
+                <h3>1. Enter Information</h3>
+                <form method="post">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" name="first-name">
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" name="last-name">
+                </div>
+                <button type="submit" name="enter-name">Enter Names</button>
+                </form>
 
-        h1,
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+                <%
+                ArrayList<Person> persons = (ArrayList<Person>)request.getAttribute("profiles");
+                %>
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
+                <h3>2. Select Profile</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        if(persons != null){
+                            for(int i = 0; i < persons.size(); i++) {
+                        %>
+                                <tr>
+                                    <td><%=persons.get(i).getAddress().toString()%></td>
+                                    <td><form method="post"><button type="submit" value="<%=persons.get(i).getPersonId()%>" name="select-address">Select</button></form></td>
+                                </tr>
+                        <%
+                            }
+                        }
+                        %>
+                    </tbody>
+                </table>
 
-        input[type="text"],
-        input[type="password"],
-        select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            width: 100%;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
+                <h3>3. Select Booking</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hotel Chain Name</th>
+                            <th>Address</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Room Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <%
+                    ArrayList<BookingDisplay> bookings = (ArrayList<BookingDisplay>)request.getAttribute("bookings");
+                    if(bookings != null) {
+                        for(int i = 0; i < bookings.size(); i++) {%>
+                        <tr>
+                            <td><%=bookings.get(i).chainName%></td>
+                            <td><%=bookings.get(i).address.toString()%></td>
+                            <td><%=bookings.get(i).startDate.toString()%></td>
+                            <td><%=bookings.get(i).endDate.toString()%></td>
+                            <td><%=bookings.get(i).roomCapacity%></td>
+                            <td><form method="post">
+                                <button type="submit" value="<%=bookings.get(i).bookingId%>" name="select-booking">Rent</button>
+                            </form></td>
+                        </tr>
+                        <%}
+                    }%>
+                    </tbody>
+                </table>
 
-        button {
-            background-color: #0b6ed1;
-            color: black;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            width: 100%;
-            margin: 10px 0;
-        }
+            </div>
+            <div class="renting-method-container">
+                <h1>Create Renting and Profile</h1>
 
-        button:hover {
-            background-color: #0961b9;
-        }
+                <h3>1. Create Profile and Enter Information</h3>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" name="first-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" name="last-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="check-in">Check-In</label>
+                        <input type="date" id="check-in" name="check-in" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="check-out">Check-Out</label>
+                        <input type="date" id="check-out" name="check-out" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="room-number">Room Number</label>
+                        <input type="number" name="room-number">
+                    </div>
 
-        .error {
-            background-color: #f44336;
-            color: white;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
+                    <div class="filter-item">
+                        <label for="hotel-chain">Hotel Chain</label>
+                        <select name="hotel-chain">
+                            <%
+                            ArrayList<HotelChain> hotelChains = (ArrayList<HotelChain>)request.getAttribute("hotelChains");
+                            if(hotelChains != null) {
+                                for(int i = 0; i < hotelChains.size(); i++) {%>
+                                    <option value=<%=hotelChains.get(i).getChainId()%>><%=hotelChains.get(i).getChainName()%></option>
+                                <%}
+                            }%>
+                        </select>
+                    </div>
+                    <button type="submit" name="create-profile">Create Profile</button>
+                </form>
 
-        /* New styles for layout */
-        .container-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 20px;
-            max-width: 800px;
-            margin: 50px auto;
-        }
+                <h3>2. Select Hotel Address</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        ArrayList<Hotel> hotels = (ArrayList<Hotel>)request.getAttribute("hotels");
+                        if(hotels != null) {
+                        for(int i = 0; i < hotels.size(); i++) {
+                        Hotel hotel = hotels.get(i);
+                        %>
+                        <tr>
+                            <td><%=hotel.getAddress().toString()%></td>
+                            <td><form method="post"><button class="select-button" type="submit" value="<%=hotel.getHotelId()%>" name="select-hotel">Select</button></form></td>
+                        </tr>
+                        <%}}%>
+                    </tbody>
+                </table>
 
-        .container-grid div {
-            padding: 20px;
-        }
 
-        .container-grid .hotel-info {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .container-grid .customer-info {
-            background-color: #f2f2f2;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-    </style>
-</head>
-<body>
-<!-- First Section -->
-<div style="position: absolute; top: 0; right: 0">
-    <button class="container">Check</button>
-</div>
-
-<!-- Second Section -->
-<div class="container">
-    <h2>Select Hotel Chain and Hotel</h2>
-    <label for="hotelChain">Hotel Chain:</label>
-    <select id="hotelChain" name="hotelChain">
-        <option value="Hilton">Hilton</option>
-        <option value="Marriott">Marriott</option>
-        <option value="Sheraton">Sheraton</option>
-    </select>
-    <br />
-    <label for="hotel">Hotel:</label>
-    <select id="hotel" name="hotel">
-        <option value="Hilton Hotel">Hilton Hotel</option>
-        <option value="Marriott Hotel">Marriott Hotel</option>
-        <option value="Sheraton Hotel">Sheraton Hotel</option>
-    </select>
-    <br />
-    <form>
-        <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber" name="roomNumber" />
-    </form>
-</div>
-
-<!-- Third Section -->
-<div class="container">
-    <h2>Customer Information</h2>
-    <form>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" />
-        <br />
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" />
-        <br />
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" />
-    </form>
-    <button class="container">Confirm</button>
-</div>
-</body>
+            </div>
+        </div>
+    </body>
 </html>

@@ -42,14 +42,15 @@ public class RoomAccessor extends DatabaseAccessor {
 
         int conditionCount =
             (categoryEnabled ? 1 : 0) +
+            (areaEnabled ? 1 : 0) +
             (roomCapacityEnabled ? 1 : 0) +
             (chainEnabled ? 1 : 0) +
             (priceMinEnabled ? 1 : 0) +
-                    (priceMaxEnabled ? 1 : 0)+
+            (priceMaxEnabled ? 1 : 0)+
             (timeEnabled ? 1 : 0);
 
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT room_id, room_number, chain_name, address, tags, room_capacity, extension_capacity, price_per_night FROM Room NATURAL JOIN Hotel NATURAL JOIN HotelChain ");
+        queryBuilder.append("SELECT room_id, room_number, chain_name, address, tags, room_capacity, extension_capacity, price_per_night, rating FROM Room NATURAL JOIN Hotel NATURAL JOIN HotelChain ");
         if(conditionCount > 0) {
             queryBuilder.append(" WHERE ");
             if(categoryEnabled) {
@@ -151,6 +152,22 @@ public class RoomAccessor extends DatabaseAccessor {
         AccessResult acc = tryReturnStatement((conn) -> {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Room WHERE room_id = ?");
             statement.setInt(1, roomId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                Room room = new Room();
+                room.ReadFromResultSet(resultSet, 1, false);
+                return new AccessResult(true, room);
+            }
+            return AccessResult.failed();
+        });
+        return (Room)acc.getResult();
+    }
+
+    public Room getRoomFromHotelAndNumber (int roomNumber, int hotelId) {
+        AccessResult acc = tryReturnStatement((conn) -> {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Room WHERE room_number = ? AND hotel_id = ?;");
+            statement.setInt(1, roomNumber);
+            statement.setInt(2, hotelId);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()) {
                 Room room = new Room();

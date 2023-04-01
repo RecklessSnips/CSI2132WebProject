@@ -11,6 +11,7 @@ public class RoomDisplay implements ISQLReadable {
     public int roomId;
     public int roomNumber;
     public double roomPrice;
+    public double rating;
     public String chainName;
     public Address address;
     public int roomTags;
@@ -29,5 +30,6 @@ public class RoomDisplay implements ISQLReadable {
         roomCapacity = resultSet.getInt(6);
         extensionCapacity = resultSet.getInt(7);
         roomPrice = resultSet.getInt(8);
+        rating = resultSet.getInt(9);
     }
 }

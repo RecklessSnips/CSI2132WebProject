@@ -42,7 +42,7 @@ public class ProfileServlet extends HttpServlet {
             int accountId = (int)accountIdAttributeObj;
             if(accountId != 0) {
                 accPair = accountAcc.getAccountPersonPair(accountId);
-                bookings = bookingAcc.getBookingOfPerson(accountId);
+                bookings = bookingAcc.getBookingOfPerson(accPair.getSecond().getPersonId());
             }
         }
 

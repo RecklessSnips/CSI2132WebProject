@@ -46,6 +46,24 @@ public class HotelAccessor extends DatabaseAccessor {
         return (ArrayList<HotelChain>)acc.getResult();
     }
 
+    public ArrayList<Hotel> getHotelsFromChain (int chainId) {
+        AccessResult acc = tryReturnStatement((conn) -> {
+
+            ArrayList<Hotel> hotels = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Hotel WHERE chain_id = ?");
+            statement.setInt(1, chainId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                Hotel hotel = new Hotel();
+                hotel.ReadFromResultSet(resultSet, 1, false);
+                hotels.add(hotel);
+            }
+            return new AccessResult(true, hotels);
+        });
+        return (ArrayList<Hotel>)acc.getResult();
+    }
+
     public Hotel getHotelFromId (int hotelId) {
         AccessResult acc = tryReturnStatement((conn) -> {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Hotel WHERE hotel_id = ?");
