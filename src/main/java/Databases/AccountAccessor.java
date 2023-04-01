@@ -117,4 +117,13 @@ public class AccountAccessor extends DatabaseAccessor{
             return 0;
         }
     }
+
+    public void deleteAccount (int accountId) {
+        tryRunStatement((conn) -> {
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM Account WHERE account_id = ?");
+            statement.setInt(1, accountId);
+            return statement.executeQuery().next();
+        });
+
+    }
 }

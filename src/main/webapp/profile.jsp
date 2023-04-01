@@ -61,7 +61,9 @@
             </tbody>
             
         </table>
-        <th><button class="delete-profile-button">Delete Account (NOT IMPLEMENTED YET)</button></th>
+        <form action="/deleteAccount" method="post">
+            <th><button class="delete-profile-button">Delete Account</button></th>
+           </form>
         <form action="/logout" method="post">
             <th><button class="delete-profile-button" onclick="location.href='/search.jsp'">Log out</button></th>
         </form>
